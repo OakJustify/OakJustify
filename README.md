@@ -1,11 +1,20 @@
 <h2 align="left">Hi 👋! My name is OakJustify and I'm a Junior Developer learning about IT and Tech</h2>
 
-<!-- Stats & Languages: SVG ini dibuat otomatis oleh GitHub Actions (lowlighter/metrics),
-     jadi tidak bergantung pada server publik yang sering error/rate-limit. -->
+<!-- AKTIF SEKARANG: badge sederhana, tidak perlu setup apa pun. -->
+<div align="center">
+  <a href="https://github.com/OakJustify?tab=followers"><img src="https://img.shields.io/github/followers/OakJustify?style=for-the-badge&logo=github&label=Followers" alt="followers" /></a>
+</div>
+
+<!-- OPSIONAL: setelah workflow metrics.yml berhasil jalan dan file
+     metrics.stats.svg + metrics.languages.svg muncul di root repo,
+     hapus blok badge di atas lalu hapus tanda komentar di bawah ini.
+
 <div align="center">
   <img src="./metrics.stats.svg" alt="GitHub stats" />
   <img src="./metrics.languages.svg" alt="Most used languages" />
 </div>
+-->
+
 
 <img align="right" height="150" src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExa2U5ZW5hc3d3cXQ2ZTVrbDg3czA4cTJnMnZkbTM1YXF4Yml3NWZoNCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/U7g8JCoj4rQOeqOMUq/giphy.gif" alt="gif" />
 
