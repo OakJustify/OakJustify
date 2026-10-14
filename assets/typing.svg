@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="46" viewBox="0 0 760 46" role="img" aria-label="Computer Science Enthusiast; Low-Level C++ Programming; Vibe Coding with AI; Building Games from Scratch">
+<defs>
+<linearGradient id="accent" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff5c8a"/><stop offset="1" stop-color="#ffd23f"/></linearGradient>
+<clipPath id="reveal0"><rect x="44" y="0" width="0" height="46"><animate attributeName="width" values="0;672;672" keyTimes="0;0.367;1" dur="3.0s" begin="0.0s" repeatCount="indefinite"/></rect></clipPath>
+<clipPath id="reveal1"><rect x="44" y="0" width="0" height="46"><animate attributeName="width" values="0;672;672" keyTimes="0;0.367;1" dur="3.0s" begin="3.0s" repeatCount="indefinite"/></rect></clipPath>
+<clipPath id="reveal2"><rect x="44" y="0" width="0" height="46"><animate attributeName="width" values="0;672;672" keyTimes="0;0.367;1" dur="3.0s" begin="6.0s" repeatCount="indefinite"/></rect></clipPath>
+<clipPath id="reveal3"><rect x="44" y="0" width="0" height="46"><animate attributeName="width" values="0;672;672" keyTimes="0;0.367;1" dur="3.0s" begin="9.0s" repeatCount="indefinite"/></rect></clipPath>
+</defs>
+<rect x="0.5" y="0.5" width="759" height="45" rx="10" fill="#0d0d16"/>
+<rect x="0.5" y="0.5" width="759" height="45" rx="10" fill="none" stroke="#ff5c8a" stroke-opacity="0.55" stroke-width="1.5"/>
+<rect x="14" y="12.0" width="4" height="22" rx="2" fill="url(#accent)"/>
+<text x="380.0" y="30.0" text-anchor="middle" font-family="'JetBrains Mono','Fira Code','SF Mono','Consolas','Courier New',monospace" font-size="21" font-weight="700" fill="#ffd23f" textLength="660" lengthAdjust="spacingAndGlyphs" clip-path="url(#reveal0)">Computer Science Enthusiast</text>
+<rect x="46" y="10.0" width="3" height="26" fill="#ff5c8a"><animate attributeName="x" values="46;46;720;720" keyTimes="0;0.367;0.80;1" dur="3.0s" begin="0.0s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.80;0.86;1" dur="3.0s" begin="0.0s" repeatCount="indefinite"/></rect>
+<text x="380.0" y="30.0" text-anchor="middle" font-family="'JetBrains Mono','Fira Code','SF Mono','Consolas','Courier New',monospace" font-size="21" font-weight="700" fill="#ffd23f" textLength="660" lengthAdjust="spacingAndGlyphs" clip-path="url(#reveal1)">Low-Level C++ Programming</text>
+<rect x="46" y="10.0" width="3" height="26" fill="#ff5c8a"><animate attributeName="x" values="46;46;720;720" keyTimes="0;0.367;0.80;1" dur="3.0s" begin="3.0s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.80;0.86;1" dur="3.0s" begin="3.0s" repeatCount="indefinite"/></rect>
+<text x="380.0" y="30.0" text-anchor="middle" font-family="'JetBrains Mono','Fira Code','SF Mono','Consolas','Courier New',monospace" font-size="21" font-weight="700" fill="#ffd23f" textLength="660" lengthAdjust="spacingAndGlyphs" clip-path="url(#reveal2)">Vibe Coding with AI</text>
+<rect x="46" y="10.0" width="3" height="26" fill="#ff5c8a"><animate attributeName="x" values="46;46;720;720" keyTimes="0;0.367;0.80;1" dur="3.0s" begin="6.0s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.80;0.86;1" dur="3.0s" begin="6.0s" repeatCount="indefinite"/></rect>
+<text x="380.0" y="30.0" text-anchor="middle" font-family="'JetBrains Mono','Fira Code','SF Mono','Consolas','Courier New',monospace" font-size="21" font-weight="700" fill="#ffd23f" textLength="660" lengthAdjust="spacingAndGlyphs" clip-path="url(#reveal3)">Building Games from Scratch</text>
+<rect x="46" y="10.0" width="3" height="26" fill="#ff5c8a"><animate attributeName="x" values="46;46;720;720" keyTimes="0;0.367;0.80;1" dur="3.0s" begin="9.0s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.80;0.86;1" dur="3.0s" begin="9.0s" repeatCount="indefinite"/></rect>
+</svg>
