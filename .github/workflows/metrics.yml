@@ -1,38 +1,63 @@
-# Simpan sebagai: .github/workflows/metrics.yml  (di repo OakJustify/OakJustify)
+# File: .github/workflows/metrics.yml  (repo OakJustify/OakJustify)
 name: Metrics
 
 on:
   schedule:
-    - cron: "0 0 * * *"   # tiap hari
+    - cron: "41 17 * * *"   # 00:41 WIB
   workflow_dispatch:       # bisa dijalankan manual
   push:
     branches: [main]
+    paths:
+      - .github/workflows/metrics.yml
 
 permissions:
   contents: write
 
+concurrency:
+  group: metrics
+  cancel-in-progress: false
+
 jobs:
   metrics:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
+      # GITHUB_TOKEN bawaan sudah cukup untuk data publik.
+      # Kalau nanti mau menghitung kontribusi repo privat,
+      # buat secret METRICS_TOKEN (PAT) lalu tukar baris token di bawah.
       - name: Stats
         uses: lowlighter/metrics@latest
         with:
-          token: ${{ secrets.METRICS_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           user: OakJustify
-          filename: metrics.stats.svg
-          base: header, activity, repositories
+          filename: assets/metrics.stats.svg
+          base: header,activity,repositories
           config_timezone: Asia/Jakarta
           config_display: large
 
       - name: Languages
         uses: lowlighter/metrics@latest
         with:
-          token: ${{ secrets.METRICS_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           user: OakJustify
-          filename: metrics.languages.svg
+          filename: assets/metrics.languages.svg
           base: ""
           plugin_languages: yes
           plugin_languages_sections: most-used
           plugin_languages_limit: 8
           config_timezone: Asia/Jakarta
+
+      - name: Commit & push
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/metrics.*.svg
+          if git diff --staged --quiet; then
+            echo "nothing to commit"; exit 0
+          fi
+          git commit -m "chore: refresh metrics"
+          for i in 1 2 3; do
+            git push && exit 0
+            echo "push failed, retrying ($i/3)"; sleep 5; git pull --rebase origin main
+          done
+          exit 1

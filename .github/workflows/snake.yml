@@ -1,38 +1,42 @@
 name: Generate Snake Animation
 
+# Contribution snake, themed to the Jane Doe / Zenless Zone Zero palette.
+# Two variants are produced so the README can switch with <picture>:
+#   snake-dark.svg  -> used when the reader is on a dark GitHub theme
+#   snake-light.svg -> used when the reader is on a light GitHub theme
+
 on:
   schedule:
-    # Jalankan otomatis setiap 24 jam
-    - cron: "0 0 * * *"
-  
-  # Memungkinkan untuk dijalankan secara manual dari tab Actions
+    - cron: "12 17 * * *"   # 00:12 WIB
   workflow_dispatch:
-  
-  # Jalankan setiap kali ada push di branch main
   push:
-    branches:
-      - main
+    branches: [main]
+    paths:
+      - .github/workflows/snake.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: snake
+  cancel-in-progress: false
 
 jobs:
   generate:
-    permissions:
-      contents: write
     runs-on: ubuntu-latest
     timeout-minutes: 5
-
     steps:
-      # Generasi file SVG ular dari kontribusi GitHub
       - name: Generate snake SVG
         uses: Platane/snk/svg-only@v3
         with:
           github_user_name: ${{ github.repository_owner }}
           outputs: |
-            dist/snake.svg
-            dist/snake-dark.svg?palette=github-dark
+            dist/snake-dark.svg?color_snake=%23ffd23f&color_dots=%232b2b3d,%238a2f4a,%23c22745,%23ff4d6d,%23ff8ab4
+            dist/snake-light.svg?color_snake=%23a81f3c&color_dots=%23e6e3ec,%23f3cdd6,%23e88ba0,%23d63a56,%23a81f3c
+            dist/snake.svg?color_snake=%23a81f3c&color_dots=%23e6e3ec,%23f3cdd6,%23e88ba0,%23d63a56,%23a81f3c
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Push file hasil ke branch 'snake-output'
       - name: Push to snake-output branch
         uses: crazy-max/ghaction-github-pages@v3.1.0
         with:

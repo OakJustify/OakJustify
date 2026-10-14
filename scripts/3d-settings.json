@@ -1,0 +1,21 @@
+[
+  {
+    "type": "normal",
+    "fileName": "jane-night.svg",
+    "backgroundColor": "#08080d",
+    "foregroundColor": "#e9e9f5",
+    "strongColor": "#ffd23f",
+    "weakColor": "#6f6f8a",
+    "radarColor": "#ff5c8a",
+    "contribColors": ["#1b1b28", "#5c2436", "#a8253c", "#e4324b", "#ff5c8a"],
+    "growingAnimation": true,
+    "l10n": {
+      "commit": "Commit",
+      "repo": "Repo",
+      "review": "Review",
+      "pullreq": "PullReq",
+      "issue": "Issue",
+      "contrib": "kontribusi"
+    }
+  }
+]
