@@ -15,7 +15,7 @@
 -->
 
 <p align="center">
-  <img src="./assets/header.svg?v=2" alt="OakJustify — Junior Developer" width="100%">
+  <img src="./assets/header.svg?v=2" alt="OakJustify — Computer Science, Low-Level, GameDev" width="100%">
 </p>
 
 <p align="center">
