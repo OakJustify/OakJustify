@@ -19,7 +19,7 @@
 </p>
 
 <p align="center">
-  <img src="./assets/typing.svg?v=3" alt="Computer Science Enthusiast · Low-Level C++ Programming · Vibe Coding with AI · Building Games from Scratch" width="100%">
+  <img src="./assets/typing.svg?v=4" alt="Computer Science Enthusiast · Low-Level C++ Programming · Vibe Coding with AI · Building Games from Scratch" width="100%">
 </p>
 
 <p align="center">
