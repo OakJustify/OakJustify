@@ -11,7 +11,22 @@ Semua aset gambar di folder `assets/` berasal dari
 | `jane-icon.webp` | *Agent Jane Doe Icon* (283×307) | `header.svg` + footer |
 | `jane-mindscape.webp` | *Mindscape Jane Doe Full* (2500×1080) | footer |
 | `header.svg` | dibuat lokal (`scripts/header.py`) | poster utama |
-| `typing.svg` | dibuat lokal (`scripts/typing.py`) | banner typing |
+| `typing.svg` | dibuat lokal (`scripts/typing.py`) | banner focus |
+| `fonts/JetBrainsMono-Bold-subset.ttf` | [JetBrains Mono Bold](https://www.jetbrains.com/lp/mono/), di-subset ke 88 glyph | di-embed ke `typing.svg` |
+
+## Lisensi font
+
+JetBrains Mono released di bawah **SIL Open Font License 1.1**. Subset di
+`assets/fonts/` dan BASE64-nya di-embed ke `assets/typing.svg`, jadi font itu
+ikut terdistribusi bersama repo. OFL mengizinkan hal tersebut asal atribusi
+disertakan:
+
+```
+JetBrains Mono
+Copyright (c) 2020 The JetBrains Mono Project Authors (https://github.com/JetBrains/JetBrainsMono)
+Licensed under the SIL Open Font License, Version 1.1
+https://scripts.sil.org/OFL
+```
 
 Semua gambar sudah dikompres ke WebP (±60–80 KB) lalu disimpan **lokal** di repo
 supaya README tidak bergantung pada hotlink pihak ketiga.

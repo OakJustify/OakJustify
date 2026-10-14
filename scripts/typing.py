@@ -1,37 +1,35 @@
 #!/usr/bin/env python3
 """
-Build the typing banner used under the header:  assets/typing.svg
+Build the focus banner under the header:  assets/typing.svg
 
-Two rules drive the design:
-
-1. Every line carries an explicit base `opacity`, so if SMIL animations are
-   unavailable the banner still renders one clean, readable line instead of
-   stacking all four on top of each other.
-2. The typewriter wipe lives in a CSS @keyframes block and nowhere else, so a
-   browser without CSS animation support simply skips it and shows the full
-   line.
-
-`textLength` pins the rendered width, so the text fits whatever font the
-browser resolves and can never be clipped horizontally.
+Design notes
+------------
+* JetBrains Mono Bold is embedded as a base64 TTF subset. An SVG loaded
+  through <img> is not allowed to fetch external resources, so an @font-face
+  pointing at a CDN would silently fall back to a system font. Embedding is
+  the only way to guarantee the typeface. (Same pattern readme-typing-svg uses.)
+* The rows cycle with a CSS animation and staggered negative delays. Nothing
+  depends on SMIL. If CSS animation is unavailable the rows simply stay at
+  their base opacity and all four are legible at once, which is a perfectly
+  good static banner.
+* No <clipPath>, no <animate>, and no textLength: each row is left-aligned, so
+  there is nothing that can overlap or overflow.
 
     python3 typing.py
 """
 
 from __future__ import annotations
 
+import base64
 import pathlib
 
 ASSETS = pathlib.Path(__file__).resolve().parent.parent / "assets"
+FONT = ASSETS / "fonts" / "JetBrainsMono-Bold-subset.ttf"
 
-W, H = 760, 48
-
-BG = "#0d0d16"
-INK = "#ffd23f"
-ACCENT = "#ff5c8a"
-
-TEXT_W = 620
-LEFT = (W - TEXT_W) // 2
-
+W = 760
+ROW_H = 34
+TOP = 52
+LABEL = "FOCUS"
 LINES = [
     "Computer Science Enthusiast",
     "Low-Level C++ Programming",
@@ -39,27 +37,70 @@ LINES = [
     "Building Games from Scratch",
 ]
 
-STEP = 3.2          # seconds per line
-FADE_IN = 0.06      # fraction of STEP spent fading in
-FADE_OUT = 0.88     # fraction of STEP where the fade-out starts
+H = TOP + ROW_H * len(LINES) + 20
 
-FONT = "'JetBrains Mono','Fira Code','SF Mono','Consolas','Courier New',monospace"
+BG = "#0d0d16"
+INK = "#ffd23f"
+ACCENT = "#ff5c8a"
+DIM = "#7a6a35"
+
+STEP = 3.2
+CYCLE = STEP * len(LINES)
 
 
 def build() -> str:
+    font_b64 = base64.b64encode(FONT.read_bytes()).decode()
+
     s: list[str] = []
     a = s.append
 
     a(
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" '
-        f'viewBox="0 0 {W} {H}" role="img" aria-label="{", ".join(LINES)}">'
+        f'viewBox="0 0 {W} {H}" role="img" '
+        f'aria-label="{LABEL}: {", ".join(LINES)}">'
+    )
+
+    # ------------------------------------------------------------------ css --
+    # Everything animated lives here. Base styles below are the no-animation
+    # fallback and are already correct on their own.
+    a(
+        "<defs>"
+        f'<style>'
+        "@font-face{"
+        f"font-family:'JBMono';"
+        f"font-weight:700;"
+        f"font-style:normal;"
+        f"src:url(data:font/ttf;base64,{font_b64}) format('truetype');"
+        "}"
+        f".t{{font-family:'JBMono',ui-monospace,'DejaVu Sans Mono',monospace;"
+        f"font-weight:700;font-size:21px;fill:{INK};}}"
+        f".lbl{{font-size:11px;letter-spacing:4px;fill:{DIM};}}"
+        f".row{{animation:jbm-row {CYCLE}s linear infinite;}}"
+        f".dot{{animation:jbm-dot {CYCLE}s linear infinite;}}"
+        "@keyframes jbm-row{"
+        f"0%{{opacity:1;}}"
+        f"{STEP / CYCLE * 100 - 3:.1f}%{{opacity:1;}}"
+        f"{STEP / CYCLE * 100:.1f}%{{opacity:.34;}}"
+        f"100%{{opacity:.34;}}"
+        "}"
+        "@keyframes jbm-dot{"
+        f"0%{{fill:{INK};}}"
+        f"{STEP / CYCLE * 100 - 3:.1f}%{{fill:{INK};}}"
+        f"{STEP / CYCLE * 100:.1f}%{{fill:{DIM};}}"
+        f"100%{{fill:{DIM};}}"
+        "}"
+        "@media (prefers-reduced-motion: reduce){"
+        ".row,.dot{animation:none;}"
+        "}"
+        "</style>"
+        "</defs>"
     )
 
     # ---------------------------------------------------------------- frame --
-    a(f'<rect x="0.5" y="0.5" width="{W - 1}" height="{H - 1}" rx="10" fill="{BG}"/>')
+    a(f'<rect x="0.5" y="0.5" width="{W - 1}" height="{H - 1}" rx="12" fill="{BG}"/>')
     a(
-        f'<rect x="0.5" y="0.5" width="{W - 1}" height="{H - 1}" rx="10" fill="none" '
-        f'stroke="{ACCENT}" stroke-opacity="0.5" stroke-width="1.5"/>'
+        f'<rect x="0.5" y="0.5" width="{W - 1}" height="{H - 1}" rx="12" fill="none" '
+        f'stroke="{ACCENT}" stroke-opacity="0.45" stroke-width="1.5"/>'
     )
     a(
         f'<linearGradient id="bar" x1="0" y1="0" x2="0" y2="1">'
@@ -67,56 +108,32 @@ def build() -> str:
         f'<stop offset="1" stop-color="{INK}"/>'
         "</linearGradient>"
     )
-    a(f'<rect x="15" y="{H / 2 - 12}" width="4" height="24" rx="2" fill="url(#bar)"/>')
+    a(f'<rect x="16" y="24" width="4" height="18" rx="2" fill="url(#bar)"/>')
+    a(f'<text class="t lbl" x="32" y="38">{LABEL}</text>')
+    a(
+        f'<text class="t lbl" x="{W - 18}" y="38" text-anchor="end">NEW ERIDU</text>'
+    )
 
-    base = H / 2 + 7
-    caret_x = W / 2 + TEXT_W / 2 + 12
-
-    # ---------------------------------------------------------------- lines --
+    # ----------------------------------------------------------------- rows --
     for i, line in enumerate(LINES):
-        # base opacity is what shows when no animation runs: line 0 only
-        base_opacity = 1 if i == 0 else 0
-        cls = f' class="ln ln{i}"'
-
-        if i == 0:
-            values = f"1;1;0;0"
-            times = f"0;{FADE_OUT};{FADE_OUT + 0.05};1"
-        else:
-            values = f"0;0;1;1;0;0"
-            times = f"0;{FADE_IN * 0.4:.3f};{FADE_IN};{FADE_OUT};{FADE_OUT + 0.05};1"
-
+        y = TOP + i * ROW_H + 24
+        delay = -(i * STEP)
         a(
-            f'<text{cls} x="{W / 2}" y="{base}" text-anchor="middle" font-family="{FONT}" '
-            f'font-size="21" font-weight="700" fill="{INK}" opacity="{base_opacity}" '
-            f'textLength="{TEXT_W}" lengthAdjust="spacingAndGlyphs">{line}'
-            f'<animate attributeName="opacity" values="{values}" keyTimes="{times}" '
-            f'dur="{STEP}s" begin="{i * STEP}s" repeatCount="indefinite"/>'
-            f"</text>"
+            f'<g class="row" style="animation-delay:{delay}s">'
+            f'<circle class="dot" cx="26" cy="{y - 7}" r="4" fill="{DIM}"/>'
+            f'<text class="t" x="44" y="{y}">{line}</text>'
+            "</g>"
         )
 
     # ---------------------------------------------------------------- caret --
-    # every line is exactly TEXT_W wide, so the caret sits at the same spot
-    # for all of them and needs no animation to stay aligned.
+    # Blinking block cursor parked at the end of the last row.
+    caret_x = 44 + len(LINES[-1]) * 21 * 0.6 + 10
     a(
-        f'<rect x="{caret_x}" y="{H / 2 - 13}" width="3" height="26" rx="1.5" '
-        f'fill="{ACCENT}" opacity="0.9">'
-        f'<animate attributeName="opacity" values="0.9;0.9;0;0;0.9" '
+        f'<rect x="{caret_x:.0f}" y="{TOP + (len(LINES) - 1) * ROW_H + 5}" '
+        f'width="9" height="21" rx="2" fill="{INK}" opacity="0.85">'
+        f'<animate attributeName="opacity" values="0.85;0.85;0;0;0.85" '
         f'keyTimes="0;0.45;0.5;0.95;1" dur="1.1s" repeatCount="indefinite"/>'
         f"</rect>"
-    )
-
-    # -------------------------------------------------- typewriter (CSS only)
-    # Declared here and nowhere else: if the browser cannot animate CSS, the
-    # rules are ignored and the line simply shows in full.
-    a(
-        "<style>"
-        "@keyframes jane-wipe {"
-        f"  0%   {{ clip-path: inset(0 100% 0 0); }}"
-        f"  {FADE_IN * 100:.0f}% {{ clip-path: inset(0 0% 0 0); }}"
-        f"  100% {{ clip-path: inset(0 0% 0 0); }}"
-        "}"
-        ".ln { animation: jane-wipe 3.2s steps(28, end) infinite; }"
-        "</style>"
     )
 
     a("</svg>")
@@ -126,7 +143,7 @@ def build() -> str:
 def main() -> None:
     out = ASSETS / "typing.svg"
     out.write_text(build(), encoding="utf-8")
-    print(f"wrote {out}  ({out.stat().st_size} bytes, cycle {STEP * len(LINES):.1f}s)")
+    print(f"wrote {out}  ({out.stat().st_size // 1024} KB, cycle {CYCLE:.1f}s)")
 
 
 if __name__ == "__main__":
