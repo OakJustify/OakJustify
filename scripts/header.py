@@ -130,8 +130,8 @@ def build() -> str:
         f'letter-spacing="1" fill="{GOLD}">FIRST, SOLVE THE PROBLEM. THEN, WRITE THE CODE.</text>'
     )
 
-    # quick stat chips
-    chips = ["C++", "C", "C#", "Scala", "Python", "Godot", "GameDev"]
+    # quick stat chips -- languages and tools only, nothing that is a field of study
+    chips = ["C++", "C#", "Python", "JavaScript", "GDScript", "HTML", "Godot"]
     cx = 36
     for label in chips:
         w = 26 + len(label) * 10

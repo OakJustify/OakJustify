@@ -15,7 +15,7 @@
 -->
 
 <p align="center">
-  <img src="./assets/header.svg?v=2" alt="OakJustify — Computer Science, Low-Level, GameDev" width="100%">
+  <img src="./assets/header.svg?v=3" alt="OakJustify — Computer Science, Low-Level, GameDev" width="100%">
 </p>
 
 <p align="center">
@@ -157,7 +157,7 @@
 ## 🧰 TECH STACK
 
 <p align="center">
-  <img src="https://skillicons.dev/icons?i=cpp,c,cs,python,js,html,css,godot,git,jupyter&theme=dark" alt="tech stack">
+  <img src="https://skillicons.dev/icons?i=cpp,cs,python,js,html,css,godot,git,jupyter&theme=dark" alt="tech stack">
 </p>
 
 <table>
@@ -171,7 +171,7 @@
   </tr>
   <tr>
     <th align="left">Web</th>
-    <td>HTML · CSS · JavaScript</td>
+    <td>HTML · CSS · JavaScript · Shell</td>
   </tr>
   <tr>
     <th align="left">Also learning</th>

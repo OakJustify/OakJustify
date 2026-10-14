@@ -21,18 +21,18 @@
 <text x="34" y="292" font-family="Impact, 'Arial Black', 'Helvetica Neue', Helvetica, sans-serif" font-size="27" font-weight="700" letter-spacing="1" fill="#ffd23f">FIRST, SOLVE THE PROBLEM. THEN, WRITE THE CODE.</text>
 <rect x="36" y="316" width="56" height="32" rx="6" fill="#08080d" fill-opacity="0.72" stroke="#e4324b" stroke-width="1.5"/>
 <text x="64.0" y="337" text-anchor="middle" font-family="'Fira Code', 'JetBrains Mono', 'Courier New', monospace" font-size="13" fill="#e9e9f5">C++</text>
-<rect x="102" y="316" width="36" height="32" rx="6" fill="#08080d" fill-opacity="0.72" stroke="#e4324b" stroke-width="1.5"/>
-<text x="120.0" y="337" text-anchor="middle" font-family="'Fira Code', 'JetBrains Mono', 'Courier New', monospace" font-size="13" fill="#e9e9f5">C</text>
-<rect x="148" y="316" width="46" height="32" rx="6" fill="#08080d" fill-opacity="0.72" stroke="#e4324b" stroke-width="1.5"/>
-<text x="171.0" y="337" text-anchor="middle" font-family="'Fira Code', 'JetBrains Mono', 'Courier New', monospace" font-size="13" fill="#e9e9f5">C#</text>
-<rect x="204" y="316" width="76" height="32" rx="6" fill="#08080d" fill-opacity="0.72" stroke="#e4324b" stroke-width="1.5"/>
-<text x="242.0" y="337" text-anchor="middle" font-family="'Fira Code', 'JetBrains Mono', 'Courier New', monospace" font-size="13" fill="#e9e9f5">Scala</text>
-<rect x="290" y="316" width="86" height="32" rx="6" fill="#08080d" fill-opacity="0.72" stroke="#e4324b" stroke-width="1.5"/>
-<text x="333.0" y="337" text-anchor="middle" font-family="'Fira Code', 'JetBrains Mono', 'Courier New', monospace" font-size="13" fill="#e9e9f5">Python</text>
-<rect x="386" y="316" width="76" height="32" rx="6" fill="#08080d" fill-opacity="0.72" stroke="#e4324b" stroke-width="1.5"/>
-<text x="424.0" y="337" text-anchor="middle" font-family="'Fira Code', 'JetBrains Mono', 'Courier New', monospace" font-size="13" fill="#e9e9f5">Godot</text>
-<rect x="472" y="316" width="96" height="32" rx="6" fill="#08080d" fill-opacity="0.72" stroke="#e4324b" stroke-width="1.5"/>
-<text x="520.0" y="337" text-anchor="middle" font-family="'Fira Code', 'JetBrains Mono', 'Courier New', monospace" font-size="13" fill="#e9e9f5">GameDev</text>
+<rect x="102" y="316" width="46" height="32" rx="6" fill="#08080d" fill-opacity="0.72" stroke="#e4324b" stroke-width="1.5"/>
+<text x="125.0" y="337" text-anchor="middle" font-family="'Fira Code', 'JetBrains Mono', 'Courier New', monospace" font-size="13" fill="#e9e9f5">C#</text>
+<rect x="158" y="316" width="86" height="32" rx="6" fill="#08080d" fill-opacity="0.72" stroke="#e4324b" stroke-width="1.5"/>
+<text x="201.0" y="337" text-anchor="middle" font-family="'Fira Code', 'JetBrains Mono', 'Courier New', monospace" font-size="13" fill="#e9e9f5">Python</text>
+<rect x="254" y="316" width="126" height="32" rx="6" fill="#08080d" fill-opacity="0.72" stroke="#e4324b" stroke-width="1.5"/>
+<text x="317.0" y="337" text-anchor="middle" font-family="'Fira Code', 'JetBrains Mono', 'Courier New', monospace" font-size="13" fill="#e9e9f5">JavaScript</text>
+<rect x="390" y="316" width="106" height="32" rx="6" fill="#08080d" fill-opacity="0.72" stroke="#e4324b" stroke-width="1.5"/>
+<text x="443.0" y="337" text-anchor="middle" font-family="'Fira Code', 'JetBrains Mono', 'Courier New', monospace" font-size="13" fill="#e9e9f5">GDScript</text>
+<rect x="506" y="316" width="66" height="32" rx="6" fill="#08080d" fill-opacity="0.72" stroke="#e4324b" stroke-width="1.5"/>
+<text x="539.0" y="337" text-anchor="middle" font-family="'Fira Code', 'JetBrains Mono', 'Courier New', monospace" font-size="13" fill="#e9e9f5">HTML</text>
+<rect x="582" y="316" width="76" height="32" rx="6" fill="#08080d" fill-opacity="0.72" stroke="#e4324b" stroke-width="1.5"/>
+<text x="620.0" y="337" text-anchor="middle" font-family="'Fira Code', 'JetBrains Mono', 'Courier New', monospace" font-size="13" fill="#e9e9f5">Godot</text>
 <text x="36" y="386" font-family="'Fira Code', 'JetBrains Mono', 'Courier New', monospace" font-size="13" letter-spacing="1" fill="#8a8aa6">learning in public  ·  vibe coding with AI  ·  building games from scratch</text>
 <text x="1164" y="386" text-anchor="end" font-family="'Fira Code', 'JetBrains Mono', 'Courier New', monospace" font-size="13" letter-spacing="3" fill="#ffd23f">AGENT 1142 · 6★ PHYSICAL</text>
 </svg>
