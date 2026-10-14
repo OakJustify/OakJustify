@@ -111,7 +111,7 @@ def build() -> str:
     )
     a(
         f'<text x="112" y="96" font-family="{MONO}" font-size="12" letter-spacing="2" '
-        f'fill="{MUTED}">ZENLESS ZONE ZERO  ·  JUNIOR DEVELOPER</text>'
+        f'fill="{MUTED}">COMPUTER SCIENCE  ·  LOW-LEVEL  ·  GAMEDEV</text>'
     )
 
     # name
@@ -131,7 +131,7 @@ def build() -> str:
     )
 
     # quick stat chips
-    chips = ["C++", "C#", "JavaScript", "Python", "Godot", "Discord.js"]
+    chips = ["C++", "C", "C#", "Scala", "Python", "Godot", "GameDev"]
     cx = 36
     for label in chips:
         w = 26 + len(label) * 10
@@ -148,7 +148,7 @@ def build() -> str:
     # footer strip
     a(
         f'<text x="36" y="{H - 74}" font-family="{MONO}" font-size="13" letter-spacing="1" '
-        f'fill="{MUTED}">16 public repos  ·  learning in public  ·  "Lady, mind if I take a look?"</text>'
+        f'fill="{MUTED}">learning in public  ·  vibe coding with AI  ·  building games from scratch</text>'
     )
     a(
         f'<text x="{W - 36}" y="{H - 74}" text-anchor="end" font-family="{MONO}" '

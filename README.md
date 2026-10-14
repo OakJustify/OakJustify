@@ -15,12 +15,12 @@
 -->
 
 <p align="center">
-  <img src="./assets/header.svg" alt="OakJustify — Junior Developer" width="100%">
+  <img src="./assets/header.svg?v=2" alt="OakJustify — Junior Developer" width="100%">
 </p>
 
 <p align="center">
   <img
-    src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1500&color=FF5C8A&center=true&width=640&lines=Junior+Developer+|+Learning+C%2B%2B%2C+C%23%2C+JS+%26+Godot+|+Discord.js+%2F+Oracle+Cloud+|+%22First%2C+solve+the+problem.%22"
+    src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1500&color=FF5C8A&center=true&width=640&lines=Computer+Science+Enthusiast+|+Learning+C%2B%2B+and+Low-Level+Programming+|+Vibe+Coding+with+AI+|+Building+Games+from+Scratch"
     alt="typing">
 </p>
 
@@ -33,7 +33,7 @@
   </a>
   <img src="https://img.shields.io/badge/Agent-1142-e4324b?style=for-the-badge&labelColor=0d0d16&logo=github&logoColor=ffd23f" alt="agent">
   <img src="https://img.shields.io/badge/Rank-6%E2%98%85%20Physical-ff5c8a?style=for-the-badge&labelColor=0d0d16" alt="rank">
-  <img src="https://komarev.com/ghpvc/?username=OakJustify&label=PROFILE+VIEWS&color=0d0d16&style=for-the-badge&logo=github&logoColor=ffd23f" alt="views">
+  <img src="https://img.shields.io/badge/GitHub-Since%202026-a81f3c?style=for-the-badge&labelColor=0d0d16&logo=github&logoColor=ffd23f" alt="since 2026">
 </p>
 
 <br>
@@ -45,29 +45,28 @@
 <table>
   <tr>
     <td width="62%" valign="top">
-      <h3>Halo, saya <b>OakJustify</b> — Junior Developer.</h3>
-      <p>Saya sedang belajar membangun software dari nol: <b>C++</b> di kampus,
-      <b>C#</b> untuk kebutuhan pribadi, <b>JavaScript</b> untuk bot Discord,
-      dan <b>Godot</b> untuk Understand game. Repo saya pada dasarnya adalah
-      catatan perjalanan — mulai dari <code>01_GuessNum</code> sampai bot Discord
-      yang online 24/7 di Oracle Cloud.</p>
-      <p>Di luar koding, saya seorang fan Zenless Zone Zero dan sedang membangun
-      website fanmade untuk <b>Jane Doe</b>. Karena itu tema profil ini
-      bertema <i>New Eridu</i>.</p>
+      <h3>Computer Science · Low-Level · GameDev</h3>
+      <p>Tiga arah yang sedang saya pelajari: fundamental <b>Computer Science</b>,
+      pemrograman <b>low-level</b> dengan <b>C++</b>, dan <b>GameDev</b> —
+      terutama membuat game dari nol, tanpa engine.</p>
+      <p>Isi harinya ada di fundamentals: algoritma, struktur data, sistem,
+      sampai grafika komputer. Sebagian besar kode saya drafting bareng AI
+      (<i>vibe coding</i>), lalu saya review dan pelajari ulang sendiri —
+      karena proses belajar-nya, bukan hasil akhirnya, yang jadi 목표.</p>
       <p>
-        <img src="https://img.shields.io/badge/STATUS-Learn%20in%20public-ff5c8a?style=flat-square&labelColor=0d0d16&color=0d0d16" alt="status">
-        <img src="https://img.shields.io/badge/FOCUS-C%2B%2B%20%2F%20C%23%20%2F%20JS-ffd23f?style=flat-square&labelColor=0d0d16&color=0d0d16" alt="focus">
-        <img src="https://img.shields.io/badge/OPEN%20TO-Collaboration-ff4d6d?style=flat-square&labelColor=0d0d16&color=0d0d16" alt="collab">
+        <img src="https://img.shields.io/badge/STATUS-Learning%20in%20public-ff5c8a?style=flat-square&labelColor=0d0d16&color=0d0d16" alt="status">
+        <img src="https://img.shields.io/badge/FOCUS-C%2B%2B+%2F+Low-Level-ffd23f?style=flat-square&labelColor=0d0d16&color=0d0d16" alt="focus">
+        <img src="https://img.shields.io/badge/TRACK-CS+%2F+Low-Level+%2F+GameDev-ff4d6d?style=flat-square&labelColor=0d0d16&color=0d0d16" alt="track">
       </p>
       <p>
-        <a href="https://github.com/OakJustify/Jane-Doe-ZZZ_Web"><img src="https://img.shields.io/badge/%F0%9F%8D%9F-Jane_Doe_Web-a81f3c?style=for-the-badge&labelColor=0d0d16&logo=github" alt="Jane Doe Web"></a>
-        <a href="https://github.com/OakJustify/LEARN_GODOT"><img src="https://img.shields.io/badge/%F0%9F%8E%AE-Godot%20Learning-4782c4?style=for-the-badge&labelColor=0d0d16&logo=godot" alt="godot"></a>
+        <a href="https://github.com/OakJustify/LEARN_CPP"><img src="https://img.shields.io/badge/Journey-C%2B%2B_Learning-ff5c8a?style=for-the-badge&labelColor=0d0d16&logo=github" alt="C++ learning"></a>
+        <a href="https://github.com/OakJustify/LEARN_CG"><img src="https://img.shields.io/badge/Track-Computer_Graphics-4782c4?style=for-the-badge&labelColor=0d0d16&logo=github" alt="computer graphics"></a>
       </p>
     </td>
     <td width="38%" align="center" valign="middle">
-      <img src="./assets/jane-portrait.webp" alt="Jane Doe" width="270">
+      <img src="./assets/jane-portrait.webp?v=2" alt="Jane Doe" width="270">
       <br>
-      <sub><i>“Lady, mind if I take a look?”</i></sub>
+      <sub><i>Visual theme: Zenless Zone Zero</i></sub>
     </td>
   </tr>
 </table>
@@ -79,7 +78,7 @@
 ## 🏙️ CONTRIBUTION CITY — 3D
 
 <p align="center">
-  <img src="./profile-3d-contrib/jane-night.svg" alt="3D contribution graph" width="100%">
+  <img src="./profile-3d-contrib/jane-night.svg?v=2" alt="3D contribution graph" width="100%">
 </p>
 
 <p align="center">
@@ -98,7 +97,7 @@
 ## ♟️ CONTRIBUTION CHESS
 
 <p align="center">
-  <img src="./assets/chess.svg" alt="Contribution chess board" width="440">
+  <img src="./assets/chess.svg?v=2" alt="Contribution chess board" width="440">
 </p>
 
 <p align="center">
@@ -117,9 +116,9 @@
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/OakJustify/OakJustify/snake-output/snake-dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/OakJustify/OakJustify/snake-output/snake-light.svg">
-    <img src="https://raw.githubusercontent.com/OakJustify/OakJustify/snake-output/snake-dark.svg" alt="snake animation" width="100%">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/OakJustify/OakJustify/snake-output/snake-dark.svg?v=2">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/OakJustify/OakJustify/snake-output/snake-light.svg?v=2">
+    <img src="https://raw.githubusercontent.com/OakJustify/OakJustify/snake-output/snake-dark.svg?v=2" alt="snake animation" width="100%">
   </picture>
 </p>
 
@@ -163,25 +162,29 @@
 ## 🧰 TECH STACK
 
 <p align="center">
-  <img src="https://skillicons.dev/icons?i=cpp,c,cs,python,js,ts,nodejs,react,html,css,git,github,linux,docker,godot,unity,figma,discord&theme=dark" alt="tech stack">
+  <img src="https://skillicons.dev/icons?i=cpp,c,cs,scala,python,js,html,css,godot,git,github,jupyter&theme=dark" alt="tech stack">
 </p>
 
 <table>
   <tr>
-    <th align="left" width="180">System &amp; Low Level</th>
-    <td>C++ · C · C# · Python · Algorithms · Data Structures</td>
+    <th align="left" width="180">Core &amp; CS</th>
+    <td>C++ · Algorithms · Data Structures · OOP · Systems Basics</td>
   </tr>
   <tr>
-    <th align="left">Web &amp; Bot</th>
-    <td>JavaScript · TypeScript · Node.js · discord.js v14 · HTML · CSS</td>
+    <th align="left">GameDev</th>
+    <td>C++ · Game Design · Godot · GDScript · Computer Graphics</td>
   </tr>
   <tr>
-    <th align="left">Cloud &amp; DevOps</th>
-    <td>Oracle Cloud · DisCloud · Docker · Linux · Git · GitHub Actions</td>
+    <th align="left">Web</th>
+    <td>HTML · CSS · JavaScript</td>
   </tr>
   <tr>
-    <th align="left">Game &amp; Graphics</th>
-    <td>Godot · GDScript · Unity · Blender · Computer Graphics</td>
+    <th align="left">Sedang dipelajari</th>
+    <td>C# · Scala · Python · Jupyter Notebook</td>
+  </tr>
+  <tr>
+    <th align="left">Tools</th>
+    <td>Git · GitHub Actions</td>
   </tr>
 </table>
 
@@ -194,25 +197,25 @@
 <table>
   <tr>
     <td width="50%" valign="top">
-      <a href="https://github.com/OakJustify/Jane-Doe-ZZZ_Web">
-        <img src="https://github-readme-stats.vercel.app/api/pin/?username=OakJustify&repo=Jane-Doe-ZZZ_Web&show_owner=true&hide_border=true&bg_color=0d0d16&border_color=e4324b&icon_color=ffd23f&text_color=e9e9f5&title_color=ffd23f" alt="Jane-Doe-ZZZ_Web">
+      <a href="https://github.com/OakJustify/LEARN_CPP">
+        <img src="https://github-readme-stats.vercel.app/api/pin/?username=OakJustify&repo=LEARN_CPP&show_owner=true&hide_border=true&bg_color=0d0d16&border_color=e4324b&icon_color=ffd23f&text_color=e9e9f5&title_color=ffd23f" alt="LEARN_CPP">
       </a>
     </td>
     <td width="50%" valign="top">
-      <a href="https://github.com/OakJustify/AcademyBot">
-        <img src="https://github-readme-stats.vercel.app/api/pin/?username=OakJustify&repo=AcademyBot&show_owner=true&hide_border=true&bg_color=0d0d16&border_color=e4324b&icon_color=ffd23f&text_color=e9e9f5&title_color=ffd23f" alt="AcademyBot">
+      <a href="https://github.com/OakJustify/LEARN_CG">
+        <img src="https://github-readme-stats.vercel.app/api/pin/?username=OakJustify&repo=LEARN_CG&show_owner=true&hide_border=true&bg_color=0d0d16&border_color=e4324b&icon_color=ffd23f&text_color=e9e9f5&title_color=ffd23f" alt="LEARN_CG">
       </a>
     </td>
   </tr>
   <tr>
     <td valign="top">
-      <a href="https://github.com/OakJustify/JumpBot">
-        <img src="https://github-readme-stats.vercel.app/api/pin/?username=OakJustify&repo=JumpBot&show_owner=true&hide_border=true&bg_color=0d0d16&border_color=e4324b&icon_color=ffd23f&text_color=e9e9f5&title_color=ffd23f" alt="JumpBot">
+      <a href="https://github.com/OakJustify/LEARN_GODOT">
+        <img src="https://github-readme-stats.vercel.app/api/pin/?username=OakJustify&repo=LEARN_GODOT&show_owner=true&hide_border=true&bg_color=0d0d16&border_color=e4324b&icon_color=ffd23f&text_color=e9e9f5&title_color=ffd23f" alt="LEARN_GODOT">
       </a>
     </td>
     <td valign="top">
-      <a href="https://github.com/OakJustify/LEARN_GODOT">
-        <img src="https://github-readme-stats.vercel.app/api/pin/?username=OakJustify&repo=LEARN_GODOT&show_owner=true&hide_border=true&bg_color=0d0d16&border_color=e4324b&icon_color=ffd23f&text_color=e9e9f5&title_color=ffd23f" alt="LEARN_GODOT">
+      <a href="https://github.com/OakJustify/CPP-Projects">
+        <img src="https://github-readme-stats.vercel.app/api/pin/?username=OakJustify&repo=CPP-Projects&show_owner=true&hide_border=true&bg_color=0d0d16&border_color=e4324b&icon_color=ffd23f&text_color=e9e9f5&title_color=ffd23f" alt="CPP-Projects">
       </a>
     </td>
   </tr>
@@ -241,11 +244,11 @@
 
 <div align="center">
 
-  <img src="./assets/jane-mindscape.webp" alt="Jane Doe — Mindscape Cinema" width="100%">
+  <img src="./assets/jane-mindscape.webp?v=2" alt="Jane Doe — Mindscape Cinema" width="100%">
 
   <br><br>
 
-  <img src="./assets/jane-icon.webp" alt="" width="52">
+  <img src="./assets/jane-icon.webp?v=2" alt="" width="52">
 
   <h3>“Sorry, milady's busy right now.”</h3>
 
