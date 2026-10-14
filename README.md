@@ -77,14 +77,6 @@
   <img src="./profile-3d-contrib/jane-night.svg?v=2" alt="3D contribution graph" width="100%">
 </p>
 
-<p align="center">
-  <sub>
-    Regenerated daily by
-    <a href="https://github.com/yoshi389111/github-profile-3d-contrib">github-profile-3d-contrib</a>
-    using the Jane Doe colour palette.
-  </sub>
-</p>
-
 <br>
 
 ---
