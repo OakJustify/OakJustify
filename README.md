@@ -62,7 +62,7 @@
     <td width="38%" align="center" valign="middle">
       <img src="./assets/jane-portrait.webp?v=2" alt="Jane Doe" width="270">
       <br>
-      <sub><i>Visual theme: Zenless Zone Zero</i></sub>
+      <sub><i>“Lady, mind if I take a look?”</i></sub>
     </td>
   </tr>
 </table>
