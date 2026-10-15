@@ -76,43 +76,66 @@ def vent(cx: float, cy: float, cols: int = 3, rows: int = 4) -> str:
 # --- transport buttons: |<<  <<  pause/play  >>  >>| ---------------------
 BTN_W, BTN_H, BTN_R = 54, 38, 12
 
+TRI_S = 7.0  # half height of a transport triangle
+TRI_D = TRI_S * 0.88  # how far the apex reaches past the base
+PITCH = 7.0  # base-to-base distance between two triangles
+BAR_W = 2.6  # the | on the skip keys
+GAP = 3.0  # clearance between the bar and the arrows, and key to edge
 
-def tri(x: float, y: float, s: float = 7.0, right: bool = True) -> str:
-    """One play/rewind triangle, apex pointing left or right."""
+
+def tri(x: float, y: float, s: float = TRI_S, right: bool = True) -> str:
+    """One play/rewind triangle.  `x` is the BASE; the apex sits TRI_D away."""
     d = s * 0.88
-    tip = f"M{x:.1f} {y - s:.1f}L{x + d:.1f} {y:.1f}L{x:.1f} {y + s:.1f}Z"
-    if not right:
-        tip = f"M{x:.1f} {y - s:.1f}L{x - d:.1f} {y:.1f}L{x:.1f} {y + s:.1f}Z"
-    return tip
+    if right:
+        return f"M{x:.1f} {y - s:.1f}L{x + d:.1f} {y:.1f}L{x:.1f} {y + s:.1f}Z"
+    return f"M{x:.1f} {y - s:.1f}L{x - d:.1f} {y:.1f}L{x:.1f} {y + s:.1f}Z"
 
 
-def bar(x: float, y: float, h: float = 15.0, w: float = 2.6) -> str:
+def bar(x: float, y: float, h: float = 15.0, w: float = BAR_W) -> str:
+    """The | on the skip keys; `x` is its LEFT edge."""
     return f"M{x:.1f} {y - h / 2:.1f}h{w:.1f}v{h:.1f}h{-w:.1f}Z"
 
 
+def _arrows(left: float, cy: float, n: int, right: bool) -> str:
+    """n arrows whose row starts at `left` and stays inside [left, left+width]."""
+    width = (n - 1) * PITCH + TRI_D
+    base0 = left + TRI_D if not right else left  # left-pointing apex pokes left
+    return "".join(tri(base0 + i * PITCH, cy, right=right) for i in range(n))
+
+
 def glyph(kind: str, cx: float, cy: float, fill: str) -> str:
-    """Transport glyph centred on (cx, cy)."""
-    if kind == "prev":  # |<<
-        d = bar(cx - 12.5, cy) + tri(cx - 5.5, cy, right=False) + tri(cx + 3.5, cy, right=False)
-    elif kind == "rew":  # <<
-        d = tri(cx - 6.5, cy, right=False) + tri(cx + 3.0, cy, right=False)
-    elif kind == "next":  # >>|
-        d = tri(cx - 3.5, cy) + tri(cx + 5.5, cy) + bar(cx + 12.5, cy)
-    else:  # "fwd"  >>
-        d = tri(cx - 6.5, cy) + tri(cx + 3.0, cy)
+    """Transport glyph centred on (cx, cy), laid out from measured extents so
+    the | and the arrows can never collide."""
+    row = PITCH + TRI_D  # width of a two-arrow row
+    if kind == "rew":  # <<
+        d = _arrows(cx - row / 2, cy, 2, right=False)
+    elif kind == "fwd":  # >>
+        d = _arrows(cx - row / 2, cy, 2, right=True)
+    else:  # |<<  and  >>|
+        right = kind == "next"
+        total = row + GAP + BAR_W
+        left = cx - total / 2
+        if right:
+            d = _arrows(left, cy, 2, right=True) + bar(left + row + GAP, cy)
+        else:
+            d = bar(left, cy) + _arrows(left + BAR_W + GAP, cy, 2, right=False)
     return f'<path d="{d}" fill="{fill}"/>'
 
 
 def play_pause(cx: float, cy: float, fill: str) -> str:
     """Play triangle and pause bars, cross-fading forever like a real deck."""
-    play = f'<path d="{tri(cx - 1.5, cy, s=8.5)}" fill="{fill}" opacity="0">'
+    play = f'<path d="{tri(cx + TRI_D / 2, cy, s=8.5)}" fill="{fill}" opacity="0">'
     play += (
         '<animate attributeName="opacity" values="0;0;1;1;0" dur="2.4s" '
         'repeatCount="indefinite" keyTimes="0;0.5;0.5;0.95;1"/></path>'
     )
+    pw = 3.0
+    pgap = 3.0
+    total = pw * 2 + pgap
+    left = cx - total / 2
     pause = (
-        f'<path d="{bar(cx - 6.5, cy, h=16, w=3)}'
-        f'{bar(cx + 3.5, cy, h=16, w=3)}" fill="{fill}">'
+        f'<path d="{bar(left, cy, h=16, w=pw)}'
+        f'{bar(left + pw + pgap, cy, h=16, w=pw)}" fill="{fill}">'
     )
     pause += (
         '<animate attributeName="opacity" values="1;1;0;0;1" dur="2.4s" '
@@ -122,12 +145,17 @@ def play_pause(cx: float, cy: float, fill: str) -> str:
 
 
 def button(kind: str, cx: float, cy: float) -> str:
-    """One lit key on the holographic strip."""
+    """One key on the holographic strip: a smoked-glass cap that sits *in* the
+    glow instead of punching a dark hole through it."""
     out = [
         f'<g><rect x="{cx - BTN_W / 2:.1f}" y="{cy - BTN_H / 2:.1f}" '
         f'width="{BTN_W}" height="{BTN_H}" rx="{BTN_R}" fill="{PANEL}" '
-        f'fill-opacity="0.30" stroke="#ffffff" stroke-opacity="0.55" '
-        f'stroke-width="1.4"/>'
+        f'fill-opacity="0.16" stroke="#ffffff" stroke-opacity="0.38" '
+        f'stroke-width="1.2"/>',
+        # top gloss, the way a lit plastic key catches light
+        f'<rect x="{cx - BTN_W / 2 + 4:.1f}" y="{cy - BTN_H / 2 + 3:.1f}" '
+        f'width="{BTN_W - 8}" height="{BTN_H / 2 - 6:.1f}" rx="{BTN_R / 2}" '
+        f'fill="#ffffff" opacity="0.10"/>',
     ]
     if kind == "toggle":
         out.append(play_pause(cx, cy, INK))
