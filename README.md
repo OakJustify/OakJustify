@@ -86,23 +86,6 @@
 
 ---
 
-## 🏙️ CONTRIBUTION CITY — 3D
-
-<p align="center">
-  <img src="./profile-3d-contrib/jane-night.svg?v=3" alt="3D contribution graph" width="100%">
-</p>
-
-<p align="center">
-  <sub>
-    Idle animation and all — each day breathes, busier days bob higher, and the
-    motion travels along the timeline.
-  </sub>
-</p>
-
-<br>
-
----
-
 ## ♟️ CONTRIBUTION CHESS
 
 <p align="center">
@@ -129,11 +112,6 @@
 <br>
 
 ---
-
-<br>
-
----
-
 ## 🧰 TECH STACK
 
 <p align="center">
@@ -166,7 +144,22 @@
 <br>
 
 ---
+## 🏙️ CONTRIBUTION CITY — 3D
 
+<p align="center">
+  <img src="./profile-3d-contrib/jane-night.svg?v=3" alt="3D contribution graph" width="100%">
+</p>
+
+<p align="center">
+  <sub>
+    Idle animation and all — each day breathes, busier days bob higher, and the
+    motion travels along the timeline.
+  </sub>
+</p>
+
+<br>
+
+---
 ## 📦 SELECTED REPOS
 
 <table>
