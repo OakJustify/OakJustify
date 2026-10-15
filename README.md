@@ -89,7 +89,14 @@
 ## 🏙️ CONTRIBUTION CITY — 3D
 
 <p align="center">
-  <img src="./profile-3d-contrib/jane-night.svg?v=2" alt="3D contribution graph" width="100%">
+  <img src="./profile-3d-contrib/jane-night.svg?v=3" alt="3D contribution graph" width="100%">
+</p>
+
+<p align="center">
+  <sub>
+    Idle animation and all — each day breathes, busier days bob higher, and the
+    motion travels along the timeline.
+  </sub>
 </p>
 
 <br>
@@ -122,49 +129,6 @@
 <br>
 
 ---
-
-## 🐍 SNAKE
-
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/OakJustify/OakJustify/snake-output/snake-dark.svg?v=2">
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/OakJustify/OakJustify/snake-output/snake-light.svg?v=2">
-    <img src="https://raw.githubusercontent.com/OakJustify/OakJustify/snake-output/snake-dark.svg?v=2" alt="snake animation" width="100%">
-  </picture>
-</p>
-
-<br>
-
----
-
-## 📊 STATS
-
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github-readme-stats.vercel.app/api?username=OakJustify&show_icons=true&hide_border=true&include_all_commits=true&bg_color=0d0d16&border_color=e4324b&ring_color=ff5c8a&icon_color=ffd23f&text_color=e9e9f5&title_color=ffd23f">
-    <source media="(prefers-color-scheme: light)" srcset="https://github-readme-stats.vercel.app/api?username=OakJustify&show_icons=true&hide_border=true&include_all_commits=true&bg_color=ffffff&border_color=e4324b&ring_color=ff5c8a&icon_color=e4324b&text_color=0d0d16&title_color=a81f3c">
-    <img
-      src="https://github-readme-stats.vercel.app/api?username=OakJustify&show_icons=true&hide_border=true&include_all_commits=true&bg_color=0d0d16&border_color=e4324b&ring_color=ff5c8a&icon_color=ffd23f&text_color=e9e9f5&title_color=ffd23f"
-      alt="GitHub stats">
-  </picture>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github-readme-stats.vercel.app/api/top-langs/?username=OakJustify&layout=compact&hide_border=true&bg_color=0d0d16&border_color=e4324b&ring_color=ff5c8a&icon_color=ffd23f&text_color=e9e9f5&title_color=ffd23f">
-    <source media="(prefers-color-scheme: light)" srcset="https://github-readme-stats.vercel.app/api/top-langs/?username=OakJustify&layout=compact&hide_border=true&bg_color=ffffff&border_color=e4324b&ring_color=ff5c8a&icon_color=e4324b&text_color=0d0d16&title_color=a81f3c">
-    <img
-      src="https://github-readme-stats.vercel.app/api/top-langs/?username=OakJustify&layout=compact&hide_border=true&bg_color=0d0d16&border_color=e4324b&ring_color=ff5c8a&icon_color=ffd23f&text_color=e9e9f5&title_color=ffd23f"
-      alt="Most used languages">
-  </picture>
-</p>
-
-<!--
-  Kalau workflow metrics.yml sudah pernah sukses, aktifkan blok ini
-  (file-nya ada di assets/metrics.stats.svg & assets/metrics.languages.svg):
-
-  <p align="center">
-    <img src="./assets/metrics.stats.svg" width="900" alt="metrics stats">
-    <img src="./assets/metrics.languages.svg" width="450" alt="metrics languages">
-  </p>
--->
 
 <br>
 

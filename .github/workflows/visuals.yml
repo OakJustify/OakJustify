@@ -39,6 +39,9 @@ jobs:
           USERNAME: ${{ github.repository_owner }}
           SETTING_JSON: scripts/3d-settings.json
 
+      - name: Give the city its idle animation
+        run: python3 scripts/animate_city.py profile-3d-contrib/jane-night.svg
+
       - name: Generate contribution chessboard
         run: python3 scripts/chess_contrib.py --out assets/chess.svg
         env:
