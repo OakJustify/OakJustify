@@ -198,7 +198,7 @@
 
   <a href="https://giphy.com/gifs/zzz-jane-doe-zenlesszonezero-z1cQsP01hYb4DrK9Rz">
     <img
-      src="./assets/footer-frame.svg?v=3"
+      src="./assets/footer-frame.svg?v=4"
       alt="Jane Doe — Railway Transportation, playing inside an agent terminal bezel"
       width="100%">
   </a>

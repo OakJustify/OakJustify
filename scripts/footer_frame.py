@@ -145,19 +145,23 @@ def play_pause(cx: float, cy: float, fill: str) -> str:
 
 
 def button(kind: str, cx: float, cy: float) -> str:
-    """One key on the holographic strip: a smoked-glass cap that sits *in* the
-    glow instead of punching a dark hole through it."""
+    """One key on the deck: smoked-grey caps that sit in the bezel.  Only the
+    play/pause key gets the accent tint, so the primary control still reads."""
+    primary = kind == "toggle"
     out = [
         f'<g><rect x="{cx - BTN_W / 2:.1f}" y="{cy - BTN_H / 2:.1f}" '
-        f'width="{BTN_W}" height="{BTN_H}" rx="{BTN_R}" fill="{PANEL}" '
-        f'fill-opacity="0.16" stroke="#ffffff" stroke-opacity="0.38" '
+        f'width="{BTN_W}" height="{BTN_H}" rx="{BTN_R}" '
+        f'fill="{PINK if primary else "#ffffff"}" '
+        f'fill-opacity="{0.22 if primary else 0.09}" '
+        f'stroke="{PINK if primary else "#ffffff"}" '
+        f'stroke-opacity="{0.55 if primary else 0.26}" '
         f'stroke-width="1.2"/>',
-        # top gloss, the way a lit plastic key catches light
+        # top gloss, the way a moulded plastic key catches light
         f'<rect x="{cx - BTN_W / 2 + 4:.1f}" y="{cy - BTN_H / 2 + 3:.1f}" '
         f'width="{BTN_W - 8}" height="{BTN_H / 2 - 6:.1f}" rx="{BTN_R / 2}" '
-        f'fill="#ffffff" opacity="0.10"/>',
+        f'fill="#ffffff" opacity="{0.16 if primary else 0.07}"/>',
     ]
-    if kind == "toggle":
+    if primary:
         out.append(play_pause(cx, cy, INK))
     else:
         out.append(glyph(kind, cx, cy, INK))
@@ -201,10 +205,16 @@ def build() -> str:
         f'<stop offset="1" stop-color="{SHELL_LO}"/></linearGradient>'
     )
     a(
-        '<linearGradient id="holo" x1="0" y1="0" x2="1" y2="0">'
-        f'<stop offset="0" stop-color="{RED}"/>'
-        f'<stop offset="0.45" stop-color="{PINK}"/>'
-        f'<stop offset="1" stop-color="{GOLD}"/></linearGradient>'
+        '<linearGradient id="deck" x1="0" y1="0" x2="0" y2="1">'
+        f'<stop offset="0" stop-color="{SHELL}"/>'
+        f'<stop offset="1" stop-color="{SHELL_LO}"/></linearGradient>'
+    )
+    a(
+        '<linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">'
+        f'<stop offset="0" stop-color="{RED}" stop-opacity="0.55"/>'
+        f'<stop offset="0.5" stop-color="{PINK}" stop-opacity="0.55"/>'
+        f'<stop offset="1" stop-color="{GOLD}" stop-opacity="0.55"/>'
+        "</linearGradient>"
     )
     a(
         '<linearGradient id="sheen" x1="0" y1="0" x2="0.8" y2="1">'
@@ -326,30 +336,32 @@ def build() -> str:
     )
     a("</g>")
 
-    # ---- holographic shelf
+    # ---- deck: the transport bar, tuned to the bezel instead of fighting it
     a(
         f'<rect x="{hx}" y="{hy}" width="{hw}" height="{hh}" rx="{SHELF_R}" '
-        f'fill="url(#holo)"/>'
+        f'fill="url(#deck)" stroke="{SHELL_HI}" stroke-opacity="0.45" '
+        f'stroke-width="1.2"/>'
     )
     a(
-        f'<rect x="{hx}" y="{hy}" width="{hw}" height="{hh}" rx="{SHELF_R}" '
-        f'fill="none" stroke="{INK}" stroke-opacity="0.55" stroke-width="1.5"/>'
+        f'<path d="M{hx + 10} {hy + 4} H{hx + hw - 10}" stroke="#ffffff" '
+        f'stroke-opacity="0.10" stroke-width="1.5" stroke-linecap="round"/>'
     )
+    # one thin accent hairline, the only nod left to the old holo strip
     a(
-        f'<path d="M{hx + 8} {hy + 5} H{hx + hw - 8}" stroke="#ffffff" '
-        f'stroke-opacity="0.45" stroke-width="2" stroke-linecap="round"/>'
+        f'<rect x="{hx + 10}" y="{hy + hh - 5}" width="{hw - 20}" height="2" '
+        f'rx="1" fill="url(#accent)"/>'
     )
     a(transport(hx + 96, hx + hw - 96, hy + hh / 2))
 
-    # shelf legs
+    # deck legs
     for lx in (hx + 26, hx + hw - 26):
         a(
-            f'<path d="M{lx} {hy + hh - 2} v22" stroke="{SHELL_LO}" '
-            f'stroke-width="5" stroke-linecap="round"/>'
+            f'<path d="M{lx} {hy + hh - 2} v22" stroke="{SHELL_HI}" '
+            f'stroke-opacity="0.5" stroke-width="5" stroke-linecap="round"/>'
         )
         a(
             f'<circle cx="{lx}" cy="{hy + hh + 22}" r="4" fill="{SHELL_LO}" '
-            f'stroke="{SHELL_HI}" stroke-width="1.2"/>'
+            f'stroke="{SHELL_HI}" stroke-opacity="0.7" stroke-width="1.2"/>'
         )
 
     # ---- plate marks: corners of the top rail, clear of the title and screws
