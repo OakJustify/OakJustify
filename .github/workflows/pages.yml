@@ -1,8 +1,6 @@
-"""
-GitHub Pages — publishes docs/ so the chess board is reachable from the
-profile README. The engine itself needs no build step; this only copies files
-and keeps the live URL in step with main.
-"""
+# Publishes docs/ so the chess board is reachable from the profile README.
+# The engine needs no build step; this only publishes the files and keeps the
+# live URL in step with main.
 name: Pages
 
 on:
