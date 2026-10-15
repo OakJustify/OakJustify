@@ -62,18 +62,6 @@ def data_uri(path: pathlib.Path) -> str:
     return f"data:{mime};base64,{base64.b64encode(path.read_bytes()).decode()}"
 
 
-def sparkle(cx: float, cy: float, r: float, fill: str, opacity: float) -> str:
-    """Four-point star, the shape used on the holographic shelf."""
-    d = (
-        f"M{cx:.1f} {cy - r:.1f}"
-        f"Q{cx:.1f} {cy:.1f} {cx + r:.1f} {cy:.1f}"
-        f"Q{cx:.1f} {cy:.1f} {cx:.1f} {cy + r:.1f}"
-        f"Q{cx:.1f} {cy:.1f} {cx - r:.1f} {cy:.1f}"
-        f"Q{cx:.1f} {cy:.1f} {cx:.1f} {cy - r:.1f}Z"
-    )
-    return f'<path d="{d}" fill="{fill}" opacity="{opacity}"/>'
-
-
 def vent(cx: float, cy: float, cols: int = 3, rows: int = 4) -> str:
     """Side speaker grille."""
     out = []
@@ -83,6 +71,77 @@ def vent(cx: float, cy: float, cols: int = 3, rows: int = 4) -> str:
             y = cy + r * 9
             out.append(f'<circle cx="{x}" cy="{y}" r="2.1" fill="{EDGE}"/>')
     return "".join(out)
+
+
+# --- transport buttons: |<<  <<  pause/play  >>  >>| ---------------------
+BTN_W, BTN_H, BTN_R = 54, 38, 12
+
+
+def tri(x: float, y: float, s: float = 7.0, right: bool = True) -> str:
+    """One play/rewind triangle, apex pointing left or right."""
+    d = s * 0.88
+    tip = f"M{x:.1f} {y - s:.1f}L{x + d:.1f} {y:.1f}L{x:.1f} {y + s:.1f}Z"
+    if not right:
+        tip = f"M{x:.1f} {y - s:.1f}L{x - d:.1f} {y:.1f}L{x:.1f} {y + s:.1f}Z"
+    return tip
+
+
+def bar(x: float, y: float, h: float = 15.0, w: float = 2.6) -> str:
+    return f"M{x:.1f} {y - h / 2:.1f}h{w:.1f}v{h:.1f}h{-w:.1f}Z"
+
+
+def glyph(kind: str, cx: float, cy: float, fill: str) -> str:
+    """Transport glyph centred on (cx, cy)."""
+    if kind == "prev":  # |<<
+        d = bar(cx - 12.5, cy) + tri(cx - 5.5, cy, right=False) + tri(cx + 3.5, cy, right=False)
+    elif kind == "rew":  # <<
+        d = tri(cx - 6.5, cy, right=False) + tri(cx + 3.0, cy, right=False)
+    elif kind == "next":  # >>|
+        d = tri(cx - 3.5, cy) + tri(cx + 5.5, cy) + bar(cx + 12.5, cy)
+    else:  # "fwd"  >>
+        d = tri(cx - 6.5, cy) + tri(cx + 3.0, cy)
+    return f'<path d="{d}" fill="{fill}"/>'
+
+
+def play_pause(cx: float, cy: float, fill: str) -> str:
+    """Play triangle and pause bars, cross-fading forever like a real deck."""
+    play = f'<path d="{tri(cx - 1.5, cy, s=8.5)}" fill="{fill}" opacity="0">'
+    play += (
+        '<animate attributeName="opacity" values="0;0;1;1;0" dur="2.4s" '
+        'repeatCount="indefinite" keyTimes="0;0.5;0.5;0.95;1"/></path>'
+    )
+    pause = (
+        f'<path d="{bar(cx - 6.5, cy, h=16, w=3)}'
+        f'{bar(cx + 3.5, cy, h=16, w=3)}" fill="{fill}">'
+    )
+    pause += (
+        '<animate attributeName="opacity" values="1;1;0;0;1" dur="2.4s" '
+        'repeatCount="indefinite" keyTimes="0;0.5;0.5;0.95;1"/></path>'
+    )
+    return play + pause
+
+
+def button(kind: str, cx: float, cy: float) -> str:
+    """One lit key on the holographic strip."""
+    out = [
+        f'<g><rect x="{cx - BTN_W / 2:.1f}" y="{cy - BTN_H / 2:.1f}" '
+        f'width="{BTN_W}" height="{BTN_H}" rx="{BTN_R}" fill="{PANEL}" '
+        f'fill-opacity="0.30" stroke="#ffffff" stroke-opacity="0.55" '
+        f'stroke-width="1.4"/>'
+    ]
+    if kind == "toggle":
+        out.append(play_pause(cx, cy, INK))
+    else:
+        out.append(glyph(kind, cx, cy, INK))
+    out.append("</g>")
+    return "".join(out)
+
+
+def transport(cx0: float, cx1: float, cy: float) -> str:
+    """Five keys spread evenly across the strip."""
+    order = ["prev", "rew", "toggle", "fwd", "next"]
+    step = (cx1 - cx0) / (len(order) - 1)
+    return "".join(button(k, cx0 + i * step, cy) for i, k in enumerate(order))
 
 
 def build() -> str:
@@ -252,11 +311,7 @@ def build() -> str:
         f'<path d="M{hx + 8} {hy + 5} H{hx + hw - 8}" stroke="#ffffff" '
         f'stroke-opacity="0.45" stroke-width="2" stroke-linecap="round"/>'
     )
-    for i in range(5):
-        cx = hx + 118 + i * 152
-        r = 26 if i % 2 == 0 else 19
-        a(sparkle(cx, hy + hh / 2, r, "#ffffff", 0.9))
-        a(sparkle(cx, hy + hh / 2, r * 0.42, "#ffffff", 1))
+    a(transport(hx + 96, hx + hw - 96, hy + hh / 2))
 
     # shelf legs
     for lx in (hx + 26, hx + hw - 26):
