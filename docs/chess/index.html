@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contribution Chess · OakJustify</title>
+<meta name="description" content="A Zenless Zone Zero flavoured chess game. Play against the engine.">
+<style>
+:root{
+  --bg:#08080d; --panel:#0d0d16; --panel2:#14141f; --line:#26263a;
+  --ink:#e9e9f5; --muted:#8a8aa6;
+  --red:#e4324b; --pink:#ff5c8a; --gold:#ffd23f;
+  --sq-light:#3a3550; --sq-dark:#211e2c;
+  --mono:ui-monospace,'JetBrains Mono','Fira Code',SFMono-Regular,Consolas,'Liberation Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--mono);
+  min-height:100vh; display:flex; align-items:center; justify-content:center;
+  padding:24px 16px; line-height:1.5;
+}
+body::before{
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:
+    linear-gradient(transparent 95%, rgba(139,127,184,.06) 95%) 0 0/26px 26px,
+    linear-gradient(90deg, transparent 95%, rgba(139,127,184,.06) 95%) 0 0/26px 26px;
+}
+.wrap{position:relative;z-index:1;width:100%;max-width:940px}
+
+header{margin-bottom:18px}
+.kicker{
+  display:inline-block;font-size:11px;letter-spacing:.28em;color:var(--pink);
+  border:1px solid rgba(255,92,138,.35);border-radius:999px;padding:4px 12px;
+}
+h1{
+  font-size:clamp(26px,5.2vw,44px);letter-spacing:.04em;margin:12px 0 6px;font-weight:800;
+  background:linear-gradient(92deg,var(--ink) 40%,var(--gold));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.sub{color:var(--muted);font-size:13px}
+
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 268px;gap:20px;align-items:start}
+@media(max-width:760px){.layout{grid-template-columns:minmax(0,1fr)}}
+
+.card{
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;
+}
+
+/* ------------------------------------------------------------------ board */
+.board-shell{position:relative}
+.eval{
+  position:absolute;left:-14px;top:0;bottom:0;width:6px;border-radius:6px;
+  background:#171522;overflow:hidden;border:1px solid var(--line);
+}
+.eval i{
+  position:absolute;left:0;right:0;bottom:0;display:block;
+  background:linear-gradient(180deg,var(--gold),var(--red));
+  transition:height .45s ease;
+}
+.board{
+  display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(8,1fr);
+  width:100%;aspect-ratio:1;border-radius:10px;overflow:hidden;
+  border:1px solid var(--line);background:var(--sq-dark);user-select:none;
+}
+.sq{position:relative;display:grid;place-items:center;cursor:pointer;background:var(--sq-dark)}
+.sq.l{background:var(--sq-light)}
+.sq.last::after{
+  content:'';position:absolute;inset:0;background:rgba(255,210,63,.16);pointer-events:none;
+}
+.sq.sel::after{
+  content:'';position:absolute;inset:0;background:rgba(228,50,75,.42);
+  box-shadow:inset 0 0 0 2px var(--pink);pointer-events:none;
+}
+.sq.chk::after{
+  content:'';position:absolute;inset:0;background:radial-gradient(circle,rgba(228,50,75,.75),transparent 68%);
+  pointer-events:none;
+}
+.dot{
+  position:absolute;width:26%;height:26%;border-radius:50%;
+  background:rgba(255,210,63,.55);pointer-events:none;
+}
+.ring{
+  position:absolute;inset:6%;border-radius:50%;border:3px solid rgba(255,210,63,.7);
+  pointer-events:none;
+}
+.pc{
+  font-size:min(7.6vw,46px);line-height:1;pointer-events:none;
+  transform:translateY(-1px);transition:transform .12s ease;
+}
+.sq:hover .pc{transform:translateY(-2px) scale(1.04)}
+.w{color:#fbfbff;text-shadow:0 2px 6px rgba(0,0,0,.65)}
+.b{color:#12101c;-webkit-text-stroke:1.6px #cfc7e8;text-shadow:0 2px 5px rgba(0,0,0,.6)}
+.coord{
+  position:absolute;font-size:9px;color:rgba(233,233,245,.45);pointer-events:none;font-weight:700;
+}
+.coord.f{bottom:2px;right:4px}
+.coord.r{top:2px;left:4px}
+
+/* ------------------------------------------------------------------- side */
+.status{
+  font-size:14px;font-weight:700;color:var(--gold);min-height:44px;
+  display:flex;align-items:center;gap:9px;
+}
+.status .pip{
+  width:9px;height:9px;border-radius:50%;background:var(--gold);flex:0 0 auto;
+  box-shadow:0 0 10px var(--gold);
+}
+.status.busy .pip{background:var(--pink);box-shadow:0 0 10px var(--pink)}
+.info{
+  color:var(--muted);font-size:10px;letter-spacing:.06em;min-height:14px;margin-top:2px;
+}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px}
+.row+.row{margin-top:10px}
+label{font-size:10px;letter-spacing:.2em;color:var(--muted)}
+select,button{
+  font-family:var(--mono);font-size:12px;color:var(--ink);background:var(--panel2);
+  border:1px solid var(--line);border-radius:8px;padding:7px 10px;cursor:pointer;
+}
+select:hover,button:hover{border-color:var(--pink)}
+button.primary{
+  background:linear-gradient(92deg,var(--red),var(--pink));border-color:transparent;
+  color:#fff;font-weight:700;flex:1;
+}
+.btns{display:flex;gap:8px;margin-top:14px}
+
+.moves{
+  margin-top:14px;max-height:190px;overflow:auto;font-size:12px;
+  display:grid;grid-template-columns:auto 1fr 1fr;gap:2px 10px;
+  border-top:1px solid var(--line);padding-top:12px;
+}
+.moves .n{color:var(--muted)}
+.moves .w{color:var(--gold);-webkit-text-stroke:0;text-shadow:none}
+.moves .b{color:var(--muted);-webkit-text-stroke:0;text-shadow:none}
+.caps{margin-top:12px;font-size:19px;line-height:1.3;word-break:break-word}
+.caps .w{color:#fbfbff;text-shadow:none}
+.caps .b{color:#8b7fb8;text-shadow:none}
+
+.hint{margin-top:16px;color:var(--muted);font-size:11px;line-height:1.7}
+.hint b{color:var(--ink)}
+.hint a{color:var(--pink)}
+
+footer{margin-top:20px;color:var(--muted);font-size:11px;text-align:center;line-height:1.8}
+footer a{color:var(--muted)}
+
+.promo{
+  position:absolute;inset:0;background:rgba(8,8,13,.82);display:none;
+  place-items:center;gap:8px;z-index:5;flex-wrap:wrap;padding:16px;
+}
+.promo.on{display:grid}
+.promo button{font-size:30px;padding:10px 14px}
+
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <span class="kicker">NEW ERIDU · PROXY TRAINING SIM</span>
+  <h1>CONTRIBUTION CHESS</h1>
+  <p class="sub">Click a piece, then click a square. Play white against the engine.</p>
+</header>
+
+<div class="layout">
+
+  <div class="board-shell card">
+    <div class="eval" aria-hidden="true"><i id="evalBar" style="height:50%"></i></div>
+    <div class="board" id="board"></div>
+    <div class="promo" id="promo"></div>
+  </div>
+
+  <aside class="card">
+    <div class="status" id="status"><span class="pip"></span><span id="statusText">Your move.</span></div>
+    <div class="info" id="info"></div>
+
+    <div class="row">
+      <label for="level">ENGINE</label>
+      <select id="level">
+        <option value="1">1 · Casual</option>
+        <option value="2" selected>2 · Sharp</option>
+        <option value="3">3 · Ruthless</option>
+      </select>
+    </div>
+
+    <div class="btns">
+      <button class="primary" id="newGame">New game</button>
+      <button id="undoBtn" title="Take back">↶</button>
+      <button id="flipBtn" title="Flip board">⇅</button>
+    </div>
+
+    <div class="caps" id="caps"></div>
+    <div class="moves" id="moves"></div>
+
+    <p class="hint">
+      <b>Rules</b> — full legal chess: castling, en passant, promotion.<br>
+      <b>Engine</b> — negamax with alpha-beta over piece-square tables,<br>
+      running in a worker under a time budget so the board stays live.<br>
+      <b>Origin</b> — the board on your GitHub profile maps 64 days of
+      contributions onto 64 squares. <a href="../../">Back to profile</a>
+    </p>
+  </aside>
+
+</div>
+
+<footer>
+  Built for <a href="https://github.com/OakJustify">OakJustify</a> ·
+  rules by <a href="https://github.com/jhlywa/chess.js">chess.js</a> (BSD-2-Clause)
+</footer>
+
+</div>
+<p class="sr" id="live" role="status" aria-live="polite"></p>
+
+<script type="module">
+import { Chess } from './chess.js';
+import { evaluate, bestMove } from './engine.js';
+
+/* ------------------------------------------------------------------ pieces */
+const GLYPH = { w:{k:'♚',q:'♛',r:'♜',b:'♝',n:'♞',p:'♟'}, b:{k:'♚',q:'♛',r:'♜',b:'♝',n:'♞',p:'♟'} };
+const FILES = 'abcdefgh';
+
+// "hard" is expressed as a wall-clock budget rather than a fixed depth.
+// chess.js runs at a few thousand nodes per second, so depth 3 can already
+// take seconds on a busy middlegame; iterative deepening under a time limit
+// gives a much steadier opponent than a depth cap alone.
+const LEVELS = {
+  1: { maxDepth: 4,  budgetMs: 200 },
+  2: { maxDepth: 8,  budgetMs: 900 },
+  3: { maxDepth: 12, budgetMs: 2500 },
+};
+
+const game = new Chess();
+let flipped = false;
+let level = 2;
+let selected = null;     // square index in chess.js order (0 = a8)
+let busy = false;
+let pendingPromotion = null;
+let reqId = 0;
+
+/* ------------------------------------------------------- search off-thread */
+let worker = null;
+try {
+  worker = new Worker('./worker.js', { type: 'module' });
+  worker.onmessage = ({ data }) => {
+    if (data.id !== reqId) return;          // a newer request already went out
+    busy = false;
+    if (data.san) game.move(data.san);
+    el.info.textContent = data.san
+      ? `depth ${data.depth} · ${data.nodes.toLocaleString()} nodes · ${data.ms} ms`
+      : '';
+    refreshStatus();
+    render();
+  };
+} catch (err) {
+  worker = null;   // fall back to the inline search below
+}
+
+function think(){
+  busy = true;
+  refreshStatus();
+  render();
+  const cfg = LEVELS[level];
+  const id = ++reqId;
+  if (worker){
+    worker.postMessage({ id, fen: game.fen(), maxDepth: cfg.maxDepth, budgetMs: cfg.budgetMs });
+  } else {
+    setTimeout(() => {
+      const r = bestMove(game, { maxDepth: cfg.maxDepth, budgetMs: cfg.budgetMs });
+      busy = false;
+      if (r.san) game.move(r.san);
+      el.info.textContent = r.san ? `inline · depth ${r.depth} · ${r.ms} ms` : '';
+      refreshStatus();
+      render();
+    }, 30);
+  }
+}
+
+
+/* ------------------------------------------------------------------ render */
+const el = {
+  board: document.getElementById('board'),
+  status: document.getElementById('status'),
+  text: document.getElementById('statusText'),
+  moves: document.getElementById('moves'),
+  caps: document.getElementById('caps'),
+  promo: document.getElementById('promo'),
+  evalBar: document.getElementById('evalBar'),
+  info: document.getElementById('info'),
+  live: document.getElementById('live'),
+};
+
+const say = msg => { el.text.textContent = msg; el.live.textContent = msg; };
+
+function targetsFrom(index){
+  const from = FILES[index % 8] + (8 - ((index / 8) | 0));
+  return new Set(game.moves({ square: from, verbose: true }).map(m => m.to));
+}
+
+const sqName = idx => FILES[idx % 8] + (8 - ((idx / 8) | 0));
+const idxOf = name => FILES.indexOf(name[0]) + (8 - +name[1]);
+
+function render(){
+  const board = game.board().flat();
+  const history = game.history({ verbose: true });
+  const last = history.length ? history[history.length - 1] : null;
+  const lastFrom = last ? idxOf(last.from) : -1;
+  const lastTo   = last ? idxOf(last.to)   : -1;
+
+  const targets = selected === null ? new Set() : targetsFrom(selected);
+  const kingSq = game.inCheck()
+    ? board.findIndex(s => s && s.type === 'k' && s.color === game.turn())
+    : -1;
+
+  el.board.innerHTML = '';
+  for (let row = 0; row < 8; row++){
+    for (let col = 0; col < 8; col++){
+      // when flipped the top-left cell holds h1 instead of a8
+      const idx = flipped ? (7 - row) * 8 + (7 - col) : row * 8 + col;
+      const cell = document.createElement('div');
+      cell.className = 'sq' + ((row + col) % 2 === 0 ? ' l' : '');
+      cell.dataset.i = idx;
+
+      const name = sqName(idx);
+      const f = document.createElement('span');
+      f.className = 'coord f'; f.textContent = name[0];
+      cell.appendChild(f);
+      const r = document.createElement('span');
+      r.className = 'coord r'; r.textContent = name[1];
+      cell.appendChild(r);
+
+      if (idx === lastFrom || idx === lastTo) cell.classList.add('last');
+      if (idx === selected) cell.classList.add('sel');
+      if (idx === kingSq) cell.classList.add('chk');
+
+      const sq = board[idx];
+      if (sq){
+        const p = document.createElement('span');
+        p.className = 'pc ' + sq.color;
+        p.textContent = GLYPH[sq.color][sq.type];
+        cell.appendChild(p);
+      }
+      if (targets.has(name)){
+        const d = document.createElement('span');
+        d.className = sq ? 'ring' : 'dot';
+        cell.appendChild(d);
+      }
+      el.board.appendChild(cell);
+    }
+  }
+  renderSide(history);
+}
+
+function renderSide(history){
+  el.moves.innerHTML = '';
+  for (let i = 0; i < history.length; i += 2){
+    const n = document.createElement('span');
+    n.className = 'n'; n.textContent = (i / 2 + 1) + '.';
+    const w = document.createElement('span');
+    w.className = 'w'; w.textContent = history[i].san;
+    const b = document.createElement('span');
+    b.className = 'b'; b.textContent = history[i + 1] ? history[i + 1].san : '';
+    el.moves.append(n, w, b);
+  }
+  el.moves.scrollTop = el.moves.scrollHeight;
+
+  const taken = { w: [], b: [] };
+  for (const m of history) if (m.captured) taken[m.color].push(m.captured);
+  el.caps.innerHTML =
+    (taken.b.length ? `<span class="b">${taken.b.map(t => GLYPH.b[t]).join('')}</span> ` : '') +
+    (taken.w.length ? `<span class="w">${taken.w.map(t => GLYPH.w[t]).join('')}</span>` : '');
+
+  const score = Math.tanh(evaluate(game) / 400);
+  el.evalBar.style.height = (50 + score * 50).toFixed(1) + '%';
+}
+
+function refreshStatus(){
+  el.status.classList.toggle('busy', busy);
+  if (game.isCheckmate()){
+    say(game.turn() === 'w' ? 'Checkmate. The Hollow takes this one.' : 'Checkmate. You win, Lady.');
+  } else if (game.isStalemate()){
+    say('Stalemate. Nobody blinks.');
+  } else if (game.isThreefoldRepetition()){
+    say('Threefold repetition. Restarting is fine.');
+  } else if (game.insufficientMaterial()){
+    say('Not enough material left.');
+  } else if (busy){
+    say('Proxy is thinking…');
+  } else if (game.inCheck()){
+    say(game.turn() === 'w' ? 'Your king is exposed. Move it.' : 'The Proxy is in check.');
+  } else {
+    say('Your move.');
+  }
+}
+
+/* ------------------------------------------------------------------- input */
+el.board.addEventListener('click', e => {
+  const cell = e.target.closest('.sq');
+  if (!cell || busy || pendingPromotion) return;
+  const idx = +cell.dataset.i;
+
+  if (selected !== null){
+    const from = sqName(selected);
+    const to = sqName(idx);
+    const options = game.moves({ square: from, verbose: true }).filter(m => m.to === to);
+    if (options.length){
+      if (options[0].promotion){
+        askPromotion(from, to);
+      } else {
+        play(options[0]);
+      }
+      selected = null;
+      render();
+      return;
+    }
+  }
+
+  const piece = game.get(sqName(idx));
+  selected = piece && piece.color === game.turn() ? idx : null;
+  render();
+});
+
+function askPromotion(from, to){
+  pendingPromotion = { from, to };
+  el.promo.innerHTML = '';
+  for (const piece of ['q', 'r', 'b', 'n']){
+    const btn = document.createElement('button');
+    btn.textContent = GLYPH.w[piece];
+    btn.title = piece;
+    btn.onclick = () => {
+      el.promo.classList.remove('on');
+      play(game.moves({ square: from, verbose: true })
+        .find(m => m.to === to && m.promotion === piece));
+      pendingPromotion = null;
+      render();
+    };
+    el.promo.appendChild(btn);
+  }
+  el.promo.classList.add('on');
+}
+
+function play(move){
+  if (!move) return;
+  game.move(move);
+  refreshStatus();
+  render();
+  if (game.turn() === 'b' && !game.isGameOver()) think();
+}
+
+document.getElementById('newGame').onclick = () => {
+  game.reset();
+  selected = null; busy = false; pendingPromotion = null;
+  el.promo.classList.remove('on');
+  el.info.textContent = '';
+  refreshStatus(); render();
+};
+document.getElementById('undoBtn').onclick = () => {
+  const h = game.history();
+  const back = game.turn() === 'b' ? 2 : 1;
+  for (let i = 0; i < back && h.length; i++) game.undo();
+  selected = null; busy = false;
+  refreshStatus(); render();
+};
+document.getElementById('flipBtn').onclick = () => { flipped = !flipped; render(); };
+document.getElementById('level').onchange = e => { level = +e.target.value; };
+
+refreshStatus();
+render();
+</script>
+</body>
+</html>
