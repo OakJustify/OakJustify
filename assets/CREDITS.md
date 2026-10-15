@@ -12,14 +12,23 @@ Semua aset gambar di folder `assets/` berasal dari
 | `jane-mindscape.webp` | *Mindscape Jane Doe Full* (2500×1080) | tidak dipakai di README (footer kini memakai GIF GIPHY) |
 | `header.svg` | dibuat lokal (`scripts/header.py`) | poster utama |
 | `typing.svg` | dibuat lokal (`scripts/typing.py`) | banner focus |
+| `jane-railway.webp` | *Railway Transportation* (480×234, WebP animasi) | di-embed ke `footer-frame.svg` |
+| `footer-frame.svg` | dibuat lokal (`scripts/footer_frame.py`) | bezel perangkat + GIF di footer |
 | `fonts/JetBrainsMono-Bold-subset.ttf` | [JetBrains Mono Bold](https://www.jetbrains.com/lp/mono/), di-subset ke 88 glyph | di-embed ke `typing.svg` |
 
 ## GIF footer
 
-GIF di footer README (bagian "Railway Transportation") di-hotlink langsung dari
-GIPHY, dengan kredit di bawah gambarnya:
+GIF di footer README (label "NEW ERTOU" di bezel) diunduh dari GIPHY, disimpan
+sebagai `assets/jane-railway.webp`, lalu di-embed sebagai base64 ke dalam
+`assets/footer-frame.svg` supaya bezel dan GIF-nya tidak bisa terpisah dan
+README tidak bergantung pada hotlink. Kredit GIPHY tetap ditampilkan di bawah
+gambar di README.
 
 - [Jane Doe · Zenless Zone Zero](https://giphy.com/gifs/zzz-jane-doe-zenlesszonezero-z1cQsP01hYb4DrK9Rz) — GIPHY
+
+GIF asli dari GIPHY hanya tersedia pada 480×234. Setelah diunduh, frame-nya
+dikompres ulang ke WebP animasi (14 fps, q62) supaya ukuran `footer-frame.svg`
+tetap masuk akal.
 
 ## Lisensi font
 
@@ -44,6 +53,7 @@ Regenerate after swapping the artwork:
 python3 scripts/header.py        # -> assets/header.svg
 python3 scripts/typing.py        # -> assets/typing.svg
 python3 scripts/chess_contrib.py --out assets/chess.svg
+python3 scripts/footer_frame.py     # -> assets/footer-frame.svg
 ```
 
 > Relative image paths in `README.md` carry a `?v=N` suffix. Bump it whenever an
