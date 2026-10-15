@@ -1,2 +1,4 @@
 # written by tests/page.test.mjs
 tests/.page-module.mjs
+__pycache__/
+*.pyc

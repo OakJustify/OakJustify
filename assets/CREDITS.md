@@ -9,10 +9,17 @@ Semua aset gambar di folder `assets/` berasal dari
 | `jane-banner.webp` | *Potential Vision — Jane Doe* (2100×1080) | di-embed ke `header.svg` oleh `scripts/header.py` |
 | `jane-portrait.webp` | *Agent Jane Doe Portrait* (1094×2048) | kolom "Focus Areas" |
 | `jane-icon.webp` | *Agent Jane Doe Icon* (283×307) | `header.svg` + footer |
-| `jane-mindscape.webp` | *Mindscape Jane Doe Full* (2500×1080) | footer |
+| `jane-mindscape.webp` | *Mindscape Jane Doe Full* (2500×1080) | tidak dipakai di README (footer kini memakai GIF GIPHY) |
 | `header.svg` | dibuat lokal (`scripts/header.py`) | poster utama |
 | `typing.svg` | dibuat lokal (`scripts/typing.py`) | banner focus |
 | `fonts/JetBrainsMono-Bold-subset.ttf` | [JetBrains Mono Bold](https://www.jetbrains.com/lp/mono/), di-subset ke 88 glyph | di-embed ke `typing.svg` |
+
+## GIF footer
+
+GIF di footer README (bagian "Railway Transportation") di-hotlink langsung dari
+GIPHY, dengan kredit di bawah gambarnya:
+
+- [Jane Doe · Zenless Zone Zero](https://giphy.com/gifs/zzz-jane-doe-zenlesszonezero-z1cQsP01hYb4DrK9Rz) — GIPHY
 
 ## Lisensi font
 
