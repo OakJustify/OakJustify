@@ -380,7 +380,7 @@ function refreshStatus(){
     say('Stalemate. Nobody blinks.');
   } else if (game.isThreefoldRepetition()){
     say('Threefold repetition. Restarting is fine.');
-  } else if (game.insufficientMaterial()){
+  } else if (game.isInsufficientMaterial()){
     say('Not enough material left.');
   } else if (busy){
     say('Proxy is thinking…');
