@@ -8,6 +8,14 @@ you how busy that day was; the piece colour tells you how hot.  Pure stdlib so i
 runs anywhere inside GitHub Actions.
 
     python3 chess_contrib.py --user OakJustify --out ../assets/chess.svg
+
+Pieces come in two flavours, chosen with --pieces:
+
+    glyph  (default) the chess characters ♟♞♝♜♛ as <text>. No dependencies,
+           but whichever font the visitor's browser picks decides what they look
+           like, so the board is not the same image for everyone.
+    cairo  the same five pieces as geometry drawn by chess_pieces.py and reused
+           with <use>. Identical everywhere. Needs pycairo installed.
 """
 
 from __future__ import annotations
@@ -35,7 +43,30 @@ RED = "#e4324b"
 # 0 -> 4 (GitHub contribution levels) mapped to the ZZZ ramp.
 LEVEL_COLOR = ["#2b2b3d", "#8a2f4a", "#c22745", "#ff4d6d", "#ff8ab4"]
 
-PIECE_GLYPH = ["", "♟", "♞", "♝", "♜", "♛"]
+# Indexed by contribution level, so index 0 is the empty square. These line up
+# one for one with LEVEL_PIECE in chess_pieces.py -- the board and the legend
+# below read from the same table, which they did not used to (the board drew
+# PIECE_GLYPH[level + 1] while the legend printed PIECE_GLYPH[level], so every
+# square showed one piece heavier than its own key said it should).
+PIECE_GLYPH = ["", "♟", "♞", "♝", "♛"]
+
+# Legend caption per level, for glyph mode. cairo mode reads the same names out
+# of chess_pieces.LEVEL_LABEL instead.
+LEGEND_LABELS = ["idle", "pawn", "knight", "bishop", "queen"]
+
+# Two ways to get a piece onto the board, picked with --pieces:
+#
+#   glyph  the characters above, as <text>. Cheap, editable, and it renders
+#          differently on every machine because whichever of DejaVu / Segoe UI
+#          Symbol / whatever else the visitor happens to have gets to decide what
+#          a knight looks like.
+#   cairo  the same four pieces drawn as geometry by scripts/chess_pieces.py, one
+#          <symbol> per piece reused with <use>. Identical everywhere.
+PIECE_MODES = ("glyph", "cairo")
+
+# how much of each square the piece occupies, and the colour it is drawn in
+PIECE_INSET = 8.0
+PIECE_FILL = "#fff4f6"
 
 FILES = "abcdefgh"
 
@@ -85,7 +116,22 @@ def fetch(login: str, token: str) -> dict:
 
 
 # ------------------------------------------------------------------ render --
-def build_svg(days: list[dict], username: str, total: int) -> str:
+def _load_pieces() -> object:
+    """Import chess_pieces lazily so the script still runs without pycairo."""
+    try:
+        import chess_pieces
+    except ImportError as exc:  # pragma: no cover - depends on the runner
+        raise SystemExit(
+            "--pieces cairo needs pycairo (pip install pycairo); "
+            "the default --pieces glyph does not"
+        ) from exc
+    return chess_pieces
+
+
+def build_svg(days: list[dict], username: str, total: int, pieces: str = "glyph") -> str:
+    if pieces not in PIECE_MODES:
+        raise ValueError(f"pieces must be one of {PIECE_MODES}, got {pieces!r}")
+
     sq = 62                      # square edge
     pad = 26                     # board padding
     board = sq * 8
@@ -93,6 +139,28 @@ def build_svg(days: list[dict], username: str, total: int) -> str:
     footer = 70
     width = board + pad * 2
     height = header + board + pad + footer
+
+    pieces_mod = _load_pieces() if pieces == "cairo" else None
+    piece_size = sq - PIECE_INSET * 2
+
+    def emit_piece(add, name: str, level: int, x: float, y: float, size: float) -> None:
+        """Drop one piece into the output. `x`/`y` are the box's top-left."""
+        if pieces_mod is not None:
+            add(pieces_mod.use(name, x, y, size))
+        else:
+            add(
+                f'<text x="{x + size / 2:g}" y="{y + size / 2 + size * 0.38:.1f}" '
+                f'text-anchor="middle" '
+                f'font-family="DejaVu Sans,Segoe UI Symbol,Noto Sans Symbols,sans-serif" '
+                f'font-size="{size * 0.82:.0f}" fill="{PIECE_FILL}">'
+                f"{PIECE_GLYPH[level]}</text>"
+            )
+
+    def piece_for(level: int) -> str:
+        """The piece name behind a contribution level, whichever mode is active."""
+        if pieces_mod is not None:
+            return pieces_mod.LEVEL_PIECE[level]
+        return ""
 
     # Keep the newest 64 days, oldest first -> reads like a game's move list.
     days = days[-64:]
@@ -104,7 +172,9 @@ def build_svg(days: list[dict], username: str, total: int) -> str:
     add = out.append
 
     add(
-        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
+        f'<svg xmlns="http://www.w3.org/2000/svg" '
+        f'xmlns:xlink="http://www.w3.org/1999/xlink" '
+        f'width="{width}" height="{height}" '
         f'viewBox="0 0 {width} {height}" role="img" '
         f'aria-label="GitHub contributions of {escape(username)} as a chess board">'
     )
@@ -122,7 +192,14 @@ def build_svg(days: list[dict], username: str, total: int) -> str:
         f'<feGaussianBlur stdDeviation="5" result="b"/>'
         f'<feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>'
         "</filter>"
-        "</defs>"
+        + (
+            ""
+            if pieces_mod is None
+            else "".join(
+                pieces_mod.symbol(n, PIECE_FILL) for n in pieces_mod.PIECES if n != "king"
+            )
+        )
+        + "</defs>"
     )
     add(f'<rect width="{width}" height="{height}" rx="18" fill="url(#bg)"/>')
     add(
@@ -180,13 +257,7 @@ def build_svg(days: list[dict], username: str, total: int) -> str:
                 )
                 continue
 
-            glyph = PIECE_GLYPH[min(lvl + 1, 5)]
-            piece = "#fff4f6"
-            add(
-                f'<text x="{x + sq / 2}" y="{y + sq / 2 + 15}" text-anchor="middle" '
-                f'font-family="DejaVu Sans,Segoe UI Symbol,Noto Sans Symbols,sans-serif" '
-                f'font-size="40" fill="{piece}">{glyph}</text>'
-            )
+            emit_piece(add, piece_for(lvl), lvl, x + PIECE_INSET, y + PIECE_INSET, piece_size)
             if lvl >= 4:
                 add(
                     f'<rect x="{x + 2}" y="{y + 2}" width="{sq - 4}" height="{sq - 4}" '
@@ -211,7 +282,8 @@ def build_svg(days: list[dict], username: str, total: int) -> str:
     # ------------------------------------------------------------- footer ---
     fy = top + board + pad + 20
     legend = ["0", "1-2", "3-5", "6-9", "10+"]
-    labels = ["idle", "pawn", "knight", "bishop", "rook", "queen"]
+    labels = [pieces_mod.LEVEL_LABEL[i] if pieces_mod else LEGEND_LABELS[i]
+              for i in range(len(legend))]
     lx = pad
     for i, c in enumerate(LEVEL_COLOR):
         add(f'<rect x="{lx}" y="{fy}" width="26" height="12" rx="3" fill="{c}"/>')
@@ -222,15 +294,23 @@ def build_svg(days: list[dict], username: str, total: int) -> str:
         lx += 99
     # second line spells out what each piece means
     lx = pad
-    for i in range(1, 6):
-        add(
-            f'<text x="{lx}" y="{fy + 34}" font-family="Verdana,DejaVu Sans,sans-serif" '
-            f'font-size="15" fill="{INK}">{PIECE_GLYPH[i]}</text>'
-        )
-        add(
-            f'<text x="{lx + 17}" y="{fy + 33}" font-family="Verdana,DejaVu Sans,sans-serif" '
-            f'font-size="10" fill="{MUTED}">{labels[i]}</text>'
-        )
+    for i in range(len(legend)):
+        if i:
+            if pieces_mod is not None:
+                add(pieces_mod.use(pieces_mod.LEVEL_PIECE[i], lx, fy + 16, 22))
+                label_x = lx + 28
+            else:
+                add(
+                    f'<text x="{lx}" y="{fy + 34}" '
+                    f'font-family="Verdana,DejaVu Sans,sans-serif" '
+                    f'font-size="15" fill="{INK}">{PIECE_GLYPH[i]}</text>'
+                )
+                label_x = lx + 17
+            add(
+                f'<text x="{label_x}" y="{fy + 33}" '
+                f'font-family="Verdana,DejaVu Sans,sans-serif" '
+                f'font-size="10" fill="{MUTED}">{labels[i]}</text>'
+            )
         lx += 99
 
     add("</svg>")
@@ -242,6 +322,13 @@ def main() -> int:
     ap.add_argument("--user", default=os.environ.get("USERNAME", "OakJustify"))
     ap.add_argument("--token", default=os.environ.get("GITHUB_TOKEN", ""))
     ap.add_argument("--out", default="../assets/chess.svg")
+    ap.add_argument(
+        "--pieces",
+        choices=PIECE_MODES,
+        default="glyph",
+        help="glyph: Unicode chess characters, rendered by the visitor's fonts. "
+        "cairo: geometry from chess_pieces.py, identical everywhere (needs pycairo).",
+    )
     args = ap.parse_args()
 
     if not args.token:
@@ -255,10 +342,10 @@ def main() -> int:
         print(f"!! contribution fetch failed: {exc}", file=sys.stderr)
         cal, total, days = None, 0, []
 
-    svg = build_svg(days, args.user, total)
+    svg = build_svg(days, args.user, total, pieces=args.pieces)
     with open(args.out, "w", encoding="utf-8") as fh:
         fh.write(svg)
-    print(f"wrote {args.out} ({total} contributions)")
+    print(f"wrote {args.out} ({total} contributions, pieces={args.pieces})")
     return 0
 
 
