@@ -196,14 +196,21 @@
 
 <div align="center">
 
-  <img
-    src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExMGpua2tob3h4enlqYnVjZXExeWtmMHdtZmtycnFpY2F4Y2FteDZzYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/z1cQsP01hYb4DrK9Rz/giphy.webp"
-    alt="Jane Doe — Railway Transportation"
-    width="100%"
-    style="max-width:100%;height:auto;">
+  <sub style="color:#ffd23f;letter-spacing:3px;">— RAILWAY TRANSPORTATION —</sub>
+
+  <br><br>
+
+  <a href="https://giphy.com/gifs/zzz-jane-doe-zenlesszonezero-z1cQsP01hYb4DrK9Rz">
+    <img
+      src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExMGpua2tob3h4enlqYnVjZXExeWtmMHdtZmtycnFpY2F4Y2FteDZzYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/z1cQsP01hYb4DrK9Rz/giphy.webp"
+      alt="Jane Doe — Railway Transportation"
+      width="100%"
+      style="max-width:720px;width:100%;height:auto;border-radius:12px;border:1px solid #2a2a3c;box-shadow:0 0 0 1px #e4324b,0 0 28px rgba(255,92,138,0.30);">
+  </a>
+
   <br>
-  <sub>
-    <a href="https://giphy.com/gifs/zzz-jane-doe-zenlesszonezero-z1cQsP01hYb4DrK9Rz">via GIPHY</a>
+  <sub style="color:#7b7b96;">
+    <a href="https://giphy.com/gifs/zzz-jane-doe-zenlesszonezero-z1cQsP01hYb4DrK9Rz" style="color:#ff5c8a;">via GIPHY</a>
   </sub>
 
   <br><br>
